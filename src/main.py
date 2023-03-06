@@ -8,11 +8,12 @@ def create_app():
     #using a list comprehension and multiple assignment 
     #to grab the environment variables we need
 
-    #creating the flask app object, the core of our app
+    #initialize app by creating flask app object
     app = Flask(__name__)
 
-    #configuring our app:
+    #configuring our app from object
     app.config.from_object("config.app_config")
+
 
     #creating, calling our database object, allowing us to use ORM
     db.init_app(app)
