@@ -9,7 +9,7 @@ class Pilot(db.Model):
     name = db.Column(db.String(), nullable=False)
     pilot_license = db.Column(db.String())
     #need to sort logic? have it increase by link maybe..?
-    flights_recorded = db.Column(db.Int)
+    flights_recorded = db.Column(db.Integer())
     specialization = db.Column(db.String())
     #FK -- needs adjustment
     created_by_user_id = db.Column(db.Int())

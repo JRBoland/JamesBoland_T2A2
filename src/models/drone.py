@@ -7,7 +7,7 @@ class Drone(db.Model):
     drone_id = db.Column(db.Integer, primary_key=True)
     #attributes
     build_specifications = db.Column(db.String())
-    weight = db.Column(db.String())
+    weight_gms = db.Column(db.Integer())
     developed_by = db.Column(db.String())
     year_of_manufacture = db.Column(db.Int())
     last_service = db.Column(db.Date())

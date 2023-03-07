@@ -11,21 +11,29 @@ def get_users():
     users = User.query.all()
     result = users_schema.dump(users)
     return jsonify(result)
+
+@user.get("/<int:id>")
+def get_user(id):
+    user = User.query.get(id)
+
+    if not user:
+        return { "message" : "User not found"}
+    
+    result = user_schema.dump(user)
+    return jsonify(result)
     
 
 @user.post("/")
 def create_user():
-    user_fields = user_schema.load(request.json)
-    user = User(**user_fields)
-    #user = User(
-    #   email=user_fields["email"],
-    #    username=user_fields["username"],
-    #    password=user_fields["password"],
-    #    is_admin=user_fields["is_admin"],
-    #)
+    try:    
+        user_fields = user_schema.load(request.json)
+        user = User(**user_fields)
 
-    db.session.add(user)
-    db.session.commit()
+        db.session.add(user)
+        db.session.commit()
+
+    except:
+        return {"message": "Invalid option"}
 
     result = user_schema.dump(user)
     return jsonify(result)
