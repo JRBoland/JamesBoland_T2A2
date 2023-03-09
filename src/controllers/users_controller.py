@@ -33,7 +33,7 @@ def create_user():
         db.session.commit()
 
     except:
-        return {"message": "Invalid option"}
+        return {"message": "User Post error: Invalid option"}
 
     result = user_schema.dump(user)
     return jsonify(result)
