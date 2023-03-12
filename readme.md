@@ -1,3 +1,5 @@
+# THIS PROJECT IS A WORK IN PROGRESS.
+
 ## R1 - Identification of the problem you are trying to solve by building this particular app.
 
 The purpose of this application is to store data for drone flights. It is intended to by used by either organisations or individuals that require a form of a record keeping and data storage tool. For a hobbyist or organisation that utilises a number of drones, it's a measure of good practice to record the details of the flights as a form of documenting the flight that took place. 
@@ -25,22 +27,6 @@ With this, an organisation or individual or group of hobbyists can keep a track 
 
 ________________________
 
-The user is able to store and retrieve data of drone flights and observe a quick reference to the pilot that flew it and the drone that was used
-
-
-(and more)
-
-
-Drones are being used to record footage of nature, sports, weddings, construction and r
-
-
-
-Hobbyists and businesses alike are finding ways to i
-
-It's intended purpose is for businesses or groups of hobbyists that which to share drone data pertaining to specific flights and build specifications. 
-
-
-
 -- advancements in tech, more uses for drones
 -- constantly break, modular builds,
 -- test the performance of the builds
@@ -49,6 +35,7 @@ It's intended purpose is for businesses or groups of hobbyists that which to sha
 -- personal log for the keen hobbyist
 
 ## R2 - Why is it a problem that needs solving?
+
 (mention how theyre in the military too maybe)
 With great advancements in its space over the last decade, drones have seen a great rise in popularity across various different fields. Beyond the recognised instances of using a drone to record footage of nature or sports, it's common to see they're now being used for further business-related purposes such as recording weddings or real estate/construction site inspections. Beyond filming footage, they're also being used to transport small goods, monitor weather conditions, or even race in a competitive setting. There is a demand for drones that are custom built for certain purposes. 
 
@@ -61,20 +48,29 @@ Additionally, the culture of 'modular' drones has seen a great rise (though main
 
 
 ## R3 - Why have you chosen this database system. What are the drawbacks compared to others?
+
 -postgresql, advantages of postgresql. familiar syntax
+WKB2
 
 ## R4 - Identify and discuss the key functionalities and benefits of an ORM
 
+WKB2
+
 ## R5 - Document all endpoints for your API
 
+Ongoing
+
 ## R6 - An ERD for your app
+
 ![T2A2-ERD](./docs/T2A2%20ERD.png)
 
 
 ## R7 - Detail any third party services that your app will use
--? 
+
+Ongoing2
 
 ## R8 - Describe your projects models in terms of the relationships they have with each other
+
 - user
 - pilot
 - drone
@@ -82,7 +78,8 @@ Additionally, the culture of 'modular' drones has seen a great rise (though main
 
 
 ## R9 - Discuss the database relations to be implemented in your application
-- ?
+
+Ongoing
 
 
 ## R10 - Describe the way tasks are allocated and tracked in your project
