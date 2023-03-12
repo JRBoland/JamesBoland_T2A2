@@ -1,11 +1,14 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-
+from flask_bcrypt import Bcrypt
+from flask_jwt_extended import JWTManager
 
 #creating the db object 
 db = SQLAlchemy()
 ma = Marshmallow()
+bcrypt = Bcrypt()
+jwt = JWTManager()
 
 def create_app():
     #using a list comprehension and multiple assignment 
@@ -21,6 +24,8 @@ def create_app():
     #creating, calling our database object, allowing us to use ORM
     db.init_app(app)
     ma.init_app(app)
+    bcrypt.init_app(app)
+    jwt.init_app(app)
 
     from command.db import db_cmd
     app.register_blueprint(db_cmd)
