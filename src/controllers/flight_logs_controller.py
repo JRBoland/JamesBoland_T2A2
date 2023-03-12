@@ -62,6 +62,8 @@ def get_drone_pilot_flights_by_drone(drone_id):
         result.append({"Flight ID": flight_log.id, "Drone ID": flight_log.drone_id, "Pilot ID": flight_log.pilot_id})
     return jsonify(result)
 
+#to implement
+@flight_log.route("/drone_pilot_flights/pilots/<int:pilot_id>/and/drones/<int:drone_id>")
 @flight_log.route("/drone_pilot_flights/pilots/<int:pilot_id>")
 
 @flight_log.route("/pilots/<int:pilot_id>/")
