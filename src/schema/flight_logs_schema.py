@@ -3,7 +3,8 @@ from marshmallow import fields
 
 class FlightLogSchema(ma.Schema):
     class Meta:
-        fields = ("id", "flight_date", "flight_location", "flight_minutes", "flight_performance_rating_of_10", "footage_recorded", "drone_id", "pilot_id", "posted_by_user_id")
+        ordered = True
+        fields = ("id", "pilot_id", "drone_id", "flight_date", "flight_time", "footage_recorded", "flight_location", "flight_minutes", "flight_performance_rating_of_10", "posted_by_user_id")
     
 
     def validate_flight_performance_rating_of_10(value):

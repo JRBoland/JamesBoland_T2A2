@@ -6,12 +6,14 @@ from sqlalchemy import CheckConstraint
 class FlightLog(db.Model):
     #define the table name for the db
     __tablename__= "FLIGHT_LOGS"
-
+    
     #set primary key
     id = db.Column(db.Integer, primary_key=True)
 
     #attributes
-    flight_date = db.Column(db.DateTime, default=datetime.now) #maybe change to automate?
+    #flight_date = db.Column(db.DateTime, default=datetime.now) #maybe change to automate?
+    flight_date = db.Column(db.Date, nullable=False)
+    flight_time = db.Column(db.Time, nullable=False)
     flight_location = db.Column(db.String(100), nullable=False)
     flight_minutes = db.Column(db.Integer(), nullable=False)
 

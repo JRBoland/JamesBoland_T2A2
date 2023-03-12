@@ -13,7 +13,8 @@ def create_app():
 
     #initialize app by creating flask app object
     app = Flask(__name__)
-
+    app.config['JSON_SORT_KEYS'] = False
+    
     #configuring our app from object
     app.config.from_object("config.app_config")
 
