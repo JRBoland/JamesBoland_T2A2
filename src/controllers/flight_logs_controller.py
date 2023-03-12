@@ -25,15 +25,14 @@ def get_flight_log(id):
 
 @flight_log.post("/")
 def create_flight_log():
-    try:    
-        flight_log_fields = flight_log_schema.load(request.json)
-        flight_log = FlightLog(**flight_log_fields)
+    #try:    
+    flight_log_fields = flight_log_schema.load(request.json)
+    flight_log = FlightLog(**flight_log_fields)
+    db.session.add(flight_log)
+    db.session.commit()
 
-        db.session.add(flight_log)
-        db.session.commit()
-
-    except:
-        return {"message": "Flight log post error"}
+    #except:
+    #    return {"message": "Flight log post error"}
 
     result = flight_log_schema.dump(flight_log)
     return jsonify(result)

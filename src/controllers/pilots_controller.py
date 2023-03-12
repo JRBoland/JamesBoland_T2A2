@@ -25,15 +25,14 @@ def get_pilot(id):
 
 @pilot.post("/")
 def create_pilot():
-    try:    
-        pilot_fields = pilot_schema.load(request.json)
-        pilot = Pilot(**pilot_fields)
+    #try:    
+    pilot_fields = pilot_schema.load(request.json)
+    pilot = Pilot(**pilot_fields)
+    db.session.add(pilot)
+    db.session.commit()
 
-        db.session.add(pilot)
-        db.session.commit()
-
-    except:
-        return {"message": "Pilot post error: Invalid option:"}
+    #except:
+    #    return {"message": "Pilot post error: Invalid option:"}
 
     result = pilot_schema.dump(pilot)
     return jsonify(result)

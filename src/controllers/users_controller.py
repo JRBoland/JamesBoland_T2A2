@@ -25,15 +25,13 @@ def get_user(id):
 
 @user.post("/")
 def create_user():
-    try:    
-        user_fields = user_schema.load(request.json)
-        user = User(**user_fields)
-
-        db.session.add(user)
-        db.session.commit()
-
-    except:
-        return {"message": "User Post error: Invalid option"}
+#try:    
+    user_fields = user_schema.load(request.json)
+    user = User(**user_fields)
+    db.session.add(user)
+    db.session.commit()
+#except:
+#    return {"message": "User Post error: Invalid option"}
 
     result = user_schema.dump(user)
     return jsonify(result)

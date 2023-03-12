@@ -25,15 +25,13 @@ def get_drone(id):
 
 @drone.post("/")
 def create_drone():
-    try:    
-        drone_fields = drone_schema.load(request.json)
-        drone = Drone(**drone_fields)
-
-        db.session.add(drone)
-        db.session.commit()
-
-    except:
-        return {"message": "Drone Post error: Invalid option"}
+#try:    
+    drone_fields = drone_schema.load(request.json)
+    drone = Drone(**drone_fields)
+    db.session.add(drone)
+    db.session.commit()
+#except:
+#    return {"message": "Drone Post error: Invalid option"}
 
     result = drone_schema.dump(drone)
     return jsonify(result)
