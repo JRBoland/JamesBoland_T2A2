@@ -1,21 +1,28 @@
 from flask import Blueprint, request, jsonify
 from models.flight_log import FlightLog
-#from models.pilot import Pilot
+from models.user import User
+from models.pilot import Pilot
 from schema.flight_logs_schema import flight_log_schema, flight_logs_schema
 from main import db
+from collections import OrderedDict
 
 
 flight_log = Blueprint('flight_log', __name__, url_prefix="/flight_logs")
 
-#Get a list of flight logs
 @flight_log.get("/")
+def flight_log_home():
+    return"<p><b>Flight Logs API</b> <br> <em>/flight_logs</em> <br><br> Try these endpoints <br><ul><li>/flights</li><li>/flights/(id)</li><li>/drones</li><li>/drone_pilot_flights</li><li>/pilots</li></ul><br>Format: /flight_logs/<em>endpoint</em> "
+    
+
+#Get a list of flight logs
+@flight_log.get("/flights")
 def get_flight_logs():
     flight_logs = FlightLog.query.all()
     result = flight_logs_schema.dump(flight_logs)
     return jsonify(result)
 
 #Get information of a flight log from it's flight ID
-@flight_log.get("/<int:id>")
+@flight_log.get("/flights/<int:id>")
 def get_flight_log(id):
     flight_log = FlightLog.query.get(id)
 
@@ -25,8 +32,21 @@ def get_flight_log(id):
     result = flight_log_schema.dump(flight_log)
     return jsonify(result)
 
+@flight_log.route("/drones")
+def get_flight_logs_drones():
+    flight_logs = FlightLog.query.all()
+    if not flight_logs:
+        return jsonify({"error": "drone pilots flights error"})
+    result = []
+    for flight_log in flight_logs:
+        result.append({
+            "Flight ID": flight_log.id, 
+            "Drone ID": flight_log.drone_id,
+            })
+    return jsonify (result)
+
 #Get a list of flight logs linked to a specified drone ID
-@flight_log.route("/drones/<int:drone_id>/")
+@flight_log.route("/drones/<int:drone_id>")
 def get_flight_log_by_drone(drone_id):
     flight_logs = FlightLog.query.filter_by(drone_id=drone_id).all()
     if not flight_logs:
@@ -44,12 +64,13 @@ def get_drone_pilot_flights():
         return jsonify({"error": "drone pilots flights error"})
     result = []
     for flight_log in flight_logs:
-        pilot = flight_log.pilots
+        pilot = Pilot.query.get(flight_log.pilot_id)
         result.append({
             "Flight ID": flight_log.id, 
-            "Pilot ID": flight_log.pilot_id,
             "Pilot Name": pilot.name,
-            "Drone ID": flight_log.drone_id})
+            "Pilot ID": flight_log.pilot_id,
+            "Drone ID": flight_log.drone_id,
+            })
     return jsonify (result)
 
 @flight_log.route("/drone_pilot_flights/drones/<int:drone_id>")
@@ -66,11 +87,26 @@ def get_drone_pilot_flights_by_drone(drone_id):
 @flight_log.route("/drone_pilot_flights/pilots/<int:pilot_id>/and/drones/<int:drone_id>")
 @flight_log.route("/drone_pilot_flights/pilots/<int:pilot_id>")
 
-@flight_log.route("/pilots/<int:pilot_id>/")
+@flight_log.route("/pilots")
+def get_flight_logs_pilots():
+    flight_logs = FlightLog.query.all()
+    if not flight_logs:
+        return jsonify({"error": "drone pilots flights error"})
+    result = []
+    for flight_log in flight_logs:
+        pilot = Pilot.query.get(flight_log.pilot_id)
+        result.append({
+            "Flight ID": flight_log.id, 
+            "Pilot Name": pilot.name,
+            "Pilot ID": flight_log.pilot_id,
+            })
+    return jsonify (result)
+
+@flight_log.route("/pilots/<int:pilot_id>")
 def get_flight_log_by_pilot(pilot_id):
     flight_logs = FlightLog.query.filter_by(pilot_id=pilot_id).all()
     if not flight_logs:
-        return jsonify({f"error": "No flight logs found for pilot ID:{pilot_id}"}), 404
+        return jsonify({"error": "No flight logs found for pilot"}), 404
     #result = []
     #for flight_log in flight_logs:
         #result.append({"Flight ID": flight_log.id, "Pilot ID": flight_log.pilot_id, "Drone ID": flight_log.drone_id})
@@ -92,6 +128,7 @@ def get_flight_log_by_pilot(pilot_id):
 def create_flight_log():
     #try:    
     flight_log_fields = flight_log_schema.load(request.json)
+
     flight_log = FlightLog(**flight_log_fields)
     db.session.add(flight_log)
     db.session.commit()

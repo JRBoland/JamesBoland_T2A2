@@ -5,7 +5,8 @@ home = Blueprint('home', __name__, url_prefix="/")
 #child url
 @home.get("/")
 def get_home_page():
-    return {"message": "this is home"}
+        return"<p><b>Flight Logs API</b> <br> Try these endpoints <br><ul><li>/flight_logs</li><li>/users</li><li>/drones</li><li>/pilots</li></ul><br>Format: /<em>endpoint</em> "
+
 
 
 #pilot = Pilot.query.get(1)
