@@ -1,9 +1,12 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, abort
+from models.user import User
+from models.flight_log import FlightLog
 from models.pilot import Pilot
 from schema.pilots_schema import pilot_schema, pilots_schema
 from main import db
 from flask import Flask, session
 from marshmallow import fields
+from flask_jwt_extended import get_jwt_identity, jwt_required
 #from flask.ext.session import Session
 #from flask import Flask
 #from sqlalchemy.orm import load_only
@@ -13,13 +16,27 @@ pilot = Blueprint('pilot', __name__, url_prefix="/pilots")
 
 
 @pilot.get("/")
+@jwt_required()
 def get_pilots():
+    #Find and verify user
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    #Make sure user is in the database
+    if not user:
+        return abort(401, description="Invalid user")
     pilots = Pilot.query.all()
     result = pilots_schema.dump(pilots)
     return jsonify(result)
 
 @pilot.get("/<int:id>")
+@jwt_required()
 def get_pilot(id):
+    #Find and verify user
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    #Make sure user is in the database
+    if not user:
+        return abort(401, description="Invalid user")
     pilot = Pilot.query.get(id)
 
     if not pilot:
@@ -34,7 +51,14 @@ def get_pilot(id):
 #    return f"<p> You have searched for {pilot_name} in the route!</p>"
 
 @pilot.route("/<string:pilot_name>/")
+@jwt_required()
 def get_pilot_by_name(pilot_name):
+    #Find and verify user
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    #Make sure user is in the database
+    if not user:
+        return abort(401, description="Invalid user")
     #pilot = session.query(Pilot).filter_by(name=pilot_name).first()
     pilot = Pilot.query.filter_by(name=pilot_name).first()
     #pilot = Pilot.query.filter_by(name=name).first()
@@ -53,7 +77,14 @@ def get_pilot_by_name(pilot_name):
 #
 
 @pilot.route("/flights_recorded")
+@jwt_required()
 def get_flights_recorded():
+    #Find and verify user
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    #Make sure user is in the database
+    if not user:
+        return abort(401, description="Invalid user")
     pilots = Pilot.query.all()
     if not pilots:
         return jsonify({"error": "flights recorded error"})
@@ -110,7 +141,18 @@ def get_flights_recorded():
 
 
 @pilot.post("/")
+@jwt_required()
 def create_pilot():
+    #get the user id invoking get_jwt_identity
+    user_id = get_jwt_identity()
+    #find it in the db
+    user = User.query.get(user_id)
+    #make sure it is in the database
+    if not user:
+        return abort(401, description="Invalid user")
+    #stop the request if user is not an admin
+    if not user.is_admin:
+        return abort(401, description="Unauthorised user")
     #try:    
     pilot_fields = pilot_schema.load(request.json)
     pilot = Pilot(**pilot_fields)
@@ -122,3 +164,32 @@ def create_pilot():
 
     result = pilot_schema.dump(pilot)
     return jsonify(result)
+
+@pilot.route("/<int:id>", methods=["DELETE"])
+@jwt_required()
+def delete_pilot(id):
+    #get the user id invoking get_jwt_identity
+    user_id = get_jwt_identity()
+    #find it in the db
+    user = User.query.get(user_id)
+    #make sure it is in the database
+    if not user:
+        return abort(401, description="Invalid user")
+    #stop the request if user is not an admin
+    if not user.is_admin:
+        return abort(401, description="Unauthorised user")
+    #find the pilot
+    pilot = Pilot.query.filter_by(id=id).first()
+    #return an error if the drone doesn't exist
+    if not pilot:
+        return abort(400, description= "Drone does not exist")
+    #to fix flight logs nuot null constraint, update drone_id of all flight logs that reference the drone to null drone
+    FlightLog.query.filter_by(pilot_id=id).update(
+        {"pilot_id": 0000}, synchronize_session=False
+    )
+
+    #delete the drone from the database and commit
+    db.session.delete(pilot)
+    db.session.commit()
+    #return the drone in the response
+    return jsonify(pilot_schema.dump(pilot))

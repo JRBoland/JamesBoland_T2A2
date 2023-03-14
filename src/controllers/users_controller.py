@@ -75,3 +75,14 @@ def create_user():
 
     result = user_schema.dump(user)
     return jsonify(result)
+
+#need to fix null constraint
+
+@user.route("/<int:id>", methods=["DELETE"])
+def delete_user(id):
+    user = User.query.filter_by(id=id).first()
+    if not user:
+        return abort(400, description= "User does not exist")
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify(user_schema.dump(user))
