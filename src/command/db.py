@@ -52,6 +52,16 @@ def seed_db():
     )
     db.session.add(user4)
 
+    user_null = User(
+        id = 0,
+        username = "NULL USER - USER PREVIOUSLY DELETED",
+        password = bcrypt.generate_password_hash("NO-ONE-SHOULD-EVER-LOG-INTO-THIS").decode("utf-8"),
+        email = "user_null@gmail.com",
+        is_admin = True
+    )
+    db.session.add(user_null)
+
+
     db.session.commit()
     
     #for drones consider having a specialisation attribute
@@ -84,6 +94,15 @@ def seed_db():
         created_by_user_id = 3
     )
     db.session.add(drone3)
+
+    drone_null = Drone(
+        id = 0000,
+        build_specifications = "Null - DEFAULT DRONE LINK FOR WHEN A DRONE HAS BEEN DELETED",
+        developed_by = "NULL",
+        year_of_manufacture = 0000,
+        created_by_user_id = 3
+    )
+    db.session.add(drone_null)
 
     db.session.commit()
   
@@ -118,6 +137,13 @@ def seed_db():
         created_by_user_id = 4
     )
     db.session.add(pilot4)
+
+    pilot_null = Pilot(
+        id = 0000,
+        name = "NULL PILOT - PILOT PREVIOUSLY DELETED",
+        created_by_user_id = 4
+    )
+    db.session.add(pilot_null)
 
     db.session.commit()
 
