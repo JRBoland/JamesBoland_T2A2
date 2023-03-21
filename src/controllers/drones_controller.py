@@ -22,7 +22,7 @@ def get_drones():
     result = drones_schema.dump(drones)
     return jsonify(result)
 
-@drone.get("/<int:id>")
+@drone.route("/<int:id>", methods=["GET"])
 @jwt_required()
 def get_drone(id):
     #Find and verify user
@@ -51,6 +51,7 @@ def create_drone():
         return abort(401, "Unauthorised user")
 #try:    
     drone_fields = drone_schema.load(request.json)
+    drone_fields["created_by_user_id"] = user.id
     drone = Drone(**drone_fields)
     db.session.add(drone)
     db.session.commit()

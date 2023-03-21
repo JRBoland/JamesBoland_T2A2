@@ -155,6 +155,7 @@ def create_pilot():
         return abort(401, description="Unauthorised user")
     #try:    
     pilot_fields = pilot_schema.load(request.json)
+    pilot_fields["created_by_user_id"] = user.id
     pilot = Pilot(**pilot_fields)
     db.session.add(pilot)
     db.session.commit()
@@ -182,7 +183,7 @@ def delete_pilot(id):
     pilot = Pilot.query.filter_by(id=id).first()
     #return an error if the drone doesn't exist
     if not pilot:
-        return abort(400, description= "Drone does not exist")
+        return abort(400, description= "Pilot does not exist")
     #to fix flight logs nuot null constraint, update drone_id of all flight logs that reference the drone to null drone
     FlightLog.query.filter_by(pilot_id=id).update(
         {"pilot_id": 0000}, synchronize_session=False

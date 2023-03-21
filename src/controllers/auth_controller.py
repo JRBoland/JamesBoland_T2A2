@@ -38,7 +38,7 @@ def auth_login():
     user = User.query.filter_by(email=user_fields["email"]).first()
     # if there is not a user with that email or if the password is no longer correct send an error
     if not user or not bcrypt.check_password_hash(user.password, user_fields["password"]):
-        return abort(401, description="Incorrect username or password")
+        return abort(401, description="Incorrect email or password")
     
     #create a variable that sets an expiry date
     expiry = timedelta(days=1)
