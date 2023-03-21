@@ -1,7 +1,6 @@
 from main import db
 from marshmallow import fields
-from datetime import datetime
-from sqlalchemy import CheckConstraint
+
 
 class FlightLog(db.Model):
     #define the table name for the db
@@ -23,7 +22,7 @@ class FlightLog(db.Model):
 
     #FK
     drone_id = db.Column(
-        db.Integer(), db.ForeignKey("DRONES.id"), nullable=False
+        db.Integer(), db.ForeignKey("DRONES.id",), nullable=False
         )
     pilot_id = db.Column(
         db.Integer(), db.ForeignKey("PILOTS.id"), nullable=False
@@ -32,15 +31,8 @@ class FlightLog(db.Model):
         db.Integer(), db.ForeignKey("USERS.id"), nullable=False
         )
     
-
-    #backref
-    #pilots = db.relationship("Pilot", backref="flight_logs")
-    #drone = db.relationship("Drone", backref="flight_logs")
-    #user = db.relationship("User", backref="flight_logs")
-    #
     footage_recorded = fields.Boolean(load_default=False)
 
-    #CheckConstraint("flight_performance_rating_of_10 >= 1 AND flight_performance_rating_of_10 <= 10")
 
 
 
