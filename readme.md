@@ -49,12 +49,79 @@ Additionally, the culture of 'modular' drones has seen a great rise (though main
 
 ## R3 - Why have you chosen this database system. What are the drawbacks compared to others?
 
--postgresql, advantages of postgresql. familiar syntax
-WKB2
+For my project I have chosen to use PostgreSQL as the database management system. 
+
+> “PostgreSQL is an open-source object relational database system with advanced, enterprise-grade capabilities.”
+> 
+
+I have chosen this database system for the following reasons: 
+
+- PostgreSQL is an Object Relational Database Management System (ORDBMS) which is able to support both SQL (relational) and JSON (non-relational) queries. It is compatible with Python and flask as well as other third party software used in the development of this app (SQLAlchemy, Marshmallow, JWT).
+- As it is an ORDBMS, it maintains the perks of a Relational Database Management System (RDBMS) (storing data in table like structures that may be queried with SQL), with the addition of support for object oriented programming concepts, such as table inheritance and custom data types.
+- PostgreSQL software is open source, meaning that it is freely available to use, resulting in no cost for startup or upgrades.
+- Has high level, three pillared security with a focus on network-level security, transport-level security and database-level security. It supports user authentication and authorisation, as well as utilising hashing for one-way encryption in the storage of users passwords(1).
+- It is highly customisable, and supports a wide range of data types.
+- It has a long development history (30+ years) and a large and active community, resulting in a lot of resources and supporting documentation to assist in production.
+- Though not yet fully utilised, it is highly scalable, making it suitable for an enterprise level application that handles large amounts of data.
+
+Finally, PostgresQL meets ACID compliance, a computer science term that stands for atomicity, consistency, isolation, and durability. 
+
+> “They represent the key guarantees that database transactions must support to avoid validity errors and maintain data integrity. 
+ACID compliance is a primary concern for relational databases as it represents the typical expectations for storing and modifying highly structured data.” (2)
+> 
+
+For the purpose of this particular project, PostgreSQL does not have many drawbacks other than initial set up complexity and a steeper learning curve(3). However if the application were to scale and upgrade over time, it’s disadvantages should be considered. Some of the further drawbacks include:
+
+- Performance limitations. Whilst PostgreSQL is very capable when it comes to scaling, it is not highest in class when it comes to speed, MySQL is considered faster.
+- Fewer third party tools. As PostgreSQL is not the most popular DBMS (MySQL is the most popular), resulting in less third-party tools that are available to implement.
 
 ## R4 - Identify and discuss the key functionalities and benefits of an ORM
 
-WKB2
+This project utilises SQLAlchemy, a popular pythonic ORM to write simpler queries when interacting with the database. 
+
+Object-Relational Mapping, or ORM, is a programming technique that provides a way to map object oriented programming (OOP) to relational databases(1). ORM libraries (such as SQLAlchemy) provide tools for developers’ to write simpler code to work with SQL databases through a high level of abstraction to perform CRUD (create, read, update, delete) operations by being the intermediary between the application’s code and the SQL database, providing a more object-oriented approach to creating and performing the databases’ interactions. 
+
+Some key functionalities of an ORM include that they allow developers to map objects (or models) to the tables within a relational database. The properties of the models class define the columns of the database table, and the instances of the objects themselves are expressed as a row in the SQL table (see files in `src/models/`). 
+
+ORM can define a relationship between these objects (one-to-one, one-to-many, many-to-many or part of a join table) and the direction of the relationship through the assignment of primary and foreign keys. An example of this can be seen in the file `src/models/drone.py`. 
+
+The Drone model sets its own primary key to be represented in the table, and pulls the foreign key `created_by_user_id` from the primary key column in the table “USERS”, whilst establishing the direction and relationship with another table, FlightLog - indicating that the “DRONES” table will have its own primary key used as a foreign key in another table (represented by the FlightLog model).
+
+```python
+db = SQLAlchemy()
+
+class Drone(db.Model):
+
+		# Setting the table name
+    __tablename__= "DRONES"
+
+		# Setting the primary key of the DRONES table
+    id = db.Column(db.Integer, primary_key=True)
+
+		# Properties of the Drone model (class) 
+		# these will be the columns in the database table.
+		# Note the validation data validation aspects of the columns
+    build_specifications = db.Column(db.String(300))
+    weight_gms = db.Column(db.Integer())
+    developed_by = db.Column(db.String(50), nullable=False)
+    year_of_manufacture = db.Column(db.Integer(), nullable=False)
+    last_service = db.Column(db.Date())
+
+    # A column that pulls the primary key(id) of another table ("USERS") 
+		# as a foreign key in the column 'created_by_user_id' in "DRONES"
+    created_by_user_id = db.Column(
+        db.Integer, db.ForeignKey("USERS.id"), nullable=False
+        )
+    # Relationships to other db tables, establishing that
+		# the FlightLog class will pull the "DRONES" primary key as a foreign key
+    drones_flight_logs = db.relationship("FlightLog", backref="drones", lazy=True)
+```
+
+ORM benefits the developer by providing a layer of abstraction, handling the logic behind the scenes, simplifying and lessening the code required to write and interact with a database, with no SQL commands required.  This allows for easier updating and maintenance of the code, resulting in more time efficient development. 
+
+It also provides a standardised way of ensuring the data involved in performing CRUD operations with a SQL database is valid and meets the requirements set by the model, improving the integrity of the database and eliminating any risks associated with a lack of data consistency.
+
+Additionally, ORM provides application portability as it allows the program to be used with different databases systems simply by changing the configuration, allowing developers to (if required) change database systems to meet the changing requirements of the application.
 
 ## R5 - Document all endpoints for your API
 
