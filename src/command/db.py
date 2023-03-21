@@ -7,6 +7,8 @@ from models.user import User
 
 db_cmd = Blueprint("db", __name__)
 
+
+
 @db_cmd.cli.command('create')
 def create_db():
     db.create_all()
@@ -18,39 +20,25 @@ def drop_db():
     db.drop_all()
     print('Tables Dropped')
 
-@db_cmd.cli.command('seed')
+#@db_cmd.cli.command('seed')
 def seed_db():
 
     user1 = User(
-        username = "Test IV John NA",
+        username = "Test user",
         password = bcrypt.generate_password_hash("password123").decode("utf-8"),
-        email = "testivjohnna@gmail.com",
+        email = "user@gmail.com",
         is_admin = False
     )
     db.session.add(user1)
 
+
     user2 = User(
-        username = "Test IV Luke NA",
-        password = bcrypt.generate_password_hash("p@ssword123").decode("utf-8"),
-        email = "testivlukena@gmail.com",
-        is_admin = False
+        username = "Test admin user",
+        password = bcrypt.generate_password_hash("password123").decode("utf-8"),
+        email = "admin@gmail.com",
+        is_admin = True
     )
     db.session.add(user2)
-    user3 = User(
-        username = "Test Admin Adam",
-        password = bcrypt.generate_password_hash("pas$word123").decode("utf-8"),
-        email = "testadminadamna@gmail.com",
-        is_admin = True
-    )
-    db.session.add(user3)
-
-    user4 = User(
-        username = "Test Admin Emily",
-        password = bcrypt.generate_password_hash("Password12").decode("utf-8"),
-        email = "testadminemily@gmail.com",
-        is_admin = True
-    )
-    db.session.add(user4)
 
     user_null = User(
         id = 0,
@@ -71,7 +59,7 @@ def seed_db():
         developed_by = "Drone Corp",
         year_of_manufacture = 2019,
         last_service = "2022 12 3",
-        created_by_user_id = 3
+        created_by_user_id = 2
     )
     db.session.add(drone1)
     
@@ -81,7 +69,7 @@ def seed_db():
         developed_by = "Drone Flyers Inc",
         year_of_manufacture = 2021,
         last_service = "2021 7 4",
-        created_by_user_id = 4
+        created_by_user_id = 2
     )
     db.session.add(drone2)
 
@@ -91,7 +79,7 @@ def seed_db():
         developed_by = "Drone Flyers Inc",
         year_of_manufacture = 2022,
         last_service = "2022 9 3",
-        created_by_user_id = 3
+        created_by_user_id = 2
     )
     db.session.add(drone3)
 
@@ -100,7 +88,7 @@ def seed_db():
         build_specifications = "Null - DEFAULT DRONE LINK FOR WHEN A DRONE HAS BEEN DELETED",
         developed_by = "NULL",
         year_of_manufacture = 0000,
-        created_by_user_id = 3
+        created_by_user_id = 2
     )
     db.session.add(drone_null)
 
@@ -110,7 +98,7 @@ def seed_db():
         name = "Marvin Jo",
         license = "Drone Pilots NSW",
         specialization = "Real estate site inspections",
-        created_by_user_id = 3
+        created_by_user_id = 2
     )
     db.session.add(pilot1)
 
@@ -118,7 +106,7 @@ def seed_db():
         name = "Vera Craig",
         license = "Drone Pilots NSW",
         specialization = "Nature photography",
-        created_by_user_id = 3
+        created_by_user_id = 2
     )
     db.session.add(pilot2)
 
@@ -126,7 +114,7 @@ def seed_db():
         name = "Johnathan Kihan",
         license = "Degenerate Drones VIC",
         specialization = "Weather and site monitoring (engineering)",
-        created_by_user_id = 3
+        created_by_user_id = 2
     )
     db.session.add(pilot3)
 
@@ -134,14 +122,14 @@ def seed_db():
         name = "James Daniels",
         license = "Drone Pilots NSW, RR",
         specialization = "FPV Racing",
-        created_by_user_id = 4
+        created_by_user_id = 2
     )
     db.session.add(pilot4)
 
     pilot_null = Pilot(
         id = 0000,
         name = "NULL PILOT - PILOT PREVIOUSLY DELETED",
-        created_by_user_id = 4
+        created_by_user_id = 2
     )
     db.session.add(pilot_null)
 
@@ -182,7 +170,7 @@ def seed_db():
         footage_recorded = True,
         drone_id = 2,
         pilot_id = 2,
-        posted_by_user = 4
+        posted_by_user = 2
     )
     db.session.add(flight_log3)
 
@@ -195,7 +183,7 @@ def seed_db():
         footage_recorded = True,
         drone_id = 3,
         pilot_id = 2,
-        posted_by_user = 3
+        posted_by_user = 1
     )
     db.session.add(flight_log4)
 
@@ -208,7 +196,7 @@ def seed_db():
         footage_recorded = True,
         drone_id = 1,
         pilot_id = 4,
-        posted_by_user = 3
+        posted_by_user = 1
     )
     db.session.add(flight_log5)
 
@@ -228,3 +216,12 @@ def seed_db():
     db.session.commit()
 
     print("Tables Seeded")
+
+@db_cmd.cli.command('reset')
+def reset_db():
+    db.drop_all()
+    print('tables dropped')
+    db.create_all()
+    print('tables created')
+    seed_db()
+    
