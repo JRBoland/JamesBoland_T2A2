@@ -49,7 +49,40 @@ def get_pilot(id):
 #@pilot.get("/<pilot_name>")
 #def get_pilot_by_name(pilot_name):
 #    return f"<p> You have searched for {pilot_name} in the route!</p>"
+#
+@pilot.route("/<int:id>", methods=["PUT"])
+@jwt_required()
+def update_pilot(id):
+    #Find and verify user
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    
+    #Make sure user is in database
+    if not user:
+        return abort(401, description="Invalid user")
+    
+    pilot = Pilot.query.get(id)
 
+    if pilot is None:
+        return jsonify({"error": f"Pilot {id} not found"}), 404
+    
+    #Allowing which fields to update
+    fields_to_update = ["name", "license", "specialization"]
+    data = request.json
+    for attr in data:
+        if attr in fields_to_update:
+            setattr(pilot, attr, data[attr])
+
+    #Updating the database with the new pilot data
+    db.session.commit()
+
+    result = pilot_schema.dump(pilot)
+    return jsonify(result)
+    
+
+
+
+#To find pilot by name. Use "%20" as a space. Eg. /firstname%20lastname
 @pilot.route("/<string:pilot_name>/")
 @jwt_required()
 def get_pilot_by_name(pilot_name):
@@ -65,7 +98,7 @@ def get_pilot_by_name(pilot_name):
     #fields = ['name']
     #pilot = session.query(Pilot).options(load_only(*fields)).all()
     if pilot is None:
-       return jsonify({"error": "Pilot not found"}), 404
+       return jsonify({"error": f"Pilot {pilot_name} not found"}), 404
     #return pilot
     return jsonify({"id":pilot.id, "name": pilot.name, "flights_recorded":pilot.flights_recorded})
 #
