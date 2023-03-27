@@ -22,12 +22,21 @@ def auth_register():
     user.email = user_fields["email"]
     user.password = bcrypt.generate_password_hash(user_fields["password"]).decode("utf-8")
 
-    user.is_admin = False
+    if "is_admin" in user_fields:
+        user.is_admin = user_fields["is_admin"]
+
+    #user.is_admin = False
     db.session.add(user)
     db.session.commit()
     expiry = timedelta(days=1)
     access_token = create_access_token(identity=str(user.id), expires_delta=expiry)
-    return jsonify ({"user": user.email, "token": access_token})
+    return jsonify ({
+        "username": user.username,
+        "user email": user.email, 
+        "token": access_token, 
+        "is_admin": user.is_admin
+
+        })
 
 
 @auth.route("/login", methods=["POST"])

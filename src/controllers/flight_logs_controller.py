@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify, abort
 from models.flight_log import FlightLog
 from models.user import User
 from models.pilot import Pilot
+from models.drone import Drone
 from schema.flight_logs_schema import flight_log_schema, flight_logs_schema
 from main import db
 from collections import OrderedDict
@@ -396,7 +397,62 @@ def get_flight_log_by_pilot_more(pilot_id):
 #    #return pilot
 #    return jsonify({"id":pilot.id, "pilot_id": pilot.id})
 
+@flight_log.route("/<int:id>", methods=["PUT"])
+@jwt_required()
+def update_flight_log(id):
+    #Find and verify user
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    
+    #Make sure user is in database
+    if not user:
+        return abort(401, description="Invalid user")
+    
+    if not user.is_admin:
+        return abort(401, description="Unauthorised user")
+    
+    flight_log = FlightLog.query.get(id)
 
+    if flight_log is None:
+        return jsonify({"error": f"Flight Log: {id} not found"}), 404
+    
+    #Allowing which fields to update
+    fields_to_update = [
+        "flight_date", 
+        "flight_time", 
+        "flight_location", 
+        "flight_minutes", 
+        "flight_performance_rating_of_10", 
+        "footage_recorded", 
+        "drone_id", 
+        "pilot_id"
+        ]
+    data = request.json
+
+    for attr in data:
+        if attr in fields_to_update:
+            if attr == "drone_id":
+                try:
+                    drone = Drone.query.get(data[attr])
+                    if not drone:
+                        return jsonify({"error": f"Drone {data[attr]} not found"}), 404
+                except:
+                    return jsonify({"error": f"Invalid drone ID: {data[attr]}"})
+            if attr == "pilot_id":
+                try:
+                    pilot = Pilot.query.get(data[attr])
+                    if not pilot:
+                        return jsonify({"error": f"Pilot: {data[attr]} not found"}), 404
+                except:
+                    return jsonify({"error": f"Invalid pilot ID: {data[attr]}"})
+                
+            setattr(flight_log, attr, data[attr])
+
+    #Updating the database with the new drone data
+    db.session.commit()
+
+    result = flight_log_schema.dump(flight_log)
+    return jsonify(result)
 
 @flight_log.route("/", methods=["POST"])
 @jwt_required()

@@ -56,10 +56,12 @@ def update_pilot(id):
     #Find and verify user
     user_id = get_jwt_identity()
     user = User.query.get(user_id)
-    
+
     #Make sure user is in database
     if not user:
         return abort(401, description="Invalid user")
+    if not user.is_admin:
+        return abort(401, description="Unauthorised user")
     
     pilot = Pilot.query.get(id)
 

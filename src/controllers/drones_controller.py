@@ -40,7 +40,7 @@ def get_drone(id):
     return jsonify(result)
     
 
-@drone.post("/")
+@drone.route("/", methods=["POST"])
 @jwt_required()
 def create_drone():
     user_id = get_jwt_identity()
@@ -57,6 +57,71 @@ def create_drone():
     db.session.commit()
 #except:
 #    return {"message": "Drone Post error: Invalid option"}
+
+    result = drone_schema.dump(drone)
+    return jsonify(result)
+
+@drone.route("/<int:id>", methods=["PATCH"])
+@jwt_required()
+def patch_drone(id):
+    #Find and verify user
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    
+    #Make sure user is in database
+    if not user:
+        return abort(401, description="Invalid user")
+    
+    if not user.is_admin:
+        return abort(401, description="Unauthorised user")
+    
+    drone = Drone.query.get(id)
+
+    if drone is None:
+        return jsonify({"error": f"Drone {id} not found"}), 404
+    
+    #Allowing which fields to update
+    fields_to_update = ["last_service"]
+    data = request.json
+    for attr in data:
+        if attr in fields_to_update:
+            setattr(drone, attr, data[attr])
+
+    #Updating the database with the new pilot data
+    db.session.commit()
+
+    result = drone_schema.dump(drone)
+    return jsonify(result)
+
+@drone.route("/<int:id>", methods=["PUT"])
+@jwt_required()
+def update_drone(id):
+    #Find and verify user
+    user_id = get_jwt_identity()
+    user = User.query.get(user_id)
+    
+    #Make sure user is in database
+    if not user:
+        return abort(401, description="Invalid user")
+    
+    if not user.is_admin:
+        return abort(401, description="Unauthorised user")
+    
+    drone = Drone.query.get(id)
+
+    if drone is None:
+        return jsonify({"error": f"Drone {id} not found"}), 404
+    
+    #Allowing which fields to update
+    fields_to_update = ["build_specifications", "weight_gms", "developed_by", "year_of_manufacture", "last_service"]
+    data = request.json
+
+    for attr in data:
+        if attr in fields_to_update:
+            setattr(drone, attr, data[attr])
+
+    #Updating the database with the new drone data
+    db.session.commit()
 
     result = drone_schema.dump(drone)
     return jsonify(result)
