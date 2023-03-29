@@ -539,11 +539,7 @@ Prior to starting the build project, a project idea was presented and discussed 
 
 The initial proposal is as follows:
 
-> For my API Web Server i’m proposing a drone flight log API
-
-It’s intended for use by a business or group that regularly flies drones for a specific purpose (such as flyby site inspections, aerial photography, racing etc.) and aims to log drone flights to keep a record of which pilot and drone were involved in the flight, as well as other metrics that may be relevant data (such as weather and performance) to store for the recorded flight. 
-
-The entities that will exist are users, pilots, drones and flight_logs. A user may/may not have admin privileges. 
+> For my API Web Server i’m proposing a drone flight log API  It’s intended for use by a business or group that regularly flies drones for a specific purpose (such as flyby site inspections, aerial photography, racing etc.) and aims to log drone flights to keep a record of which pilot and drone were involved in the flight, as well as other metrics that may be relevant data (such as weather and performance) to store for the recorded flight. The entities that will exist are users, pilots, drones and flight_logs. A user may/may not have admin privileges. 
 
 A user will be able to create and read a flight log. 
 A user will be able to read a pilot or drone card.
