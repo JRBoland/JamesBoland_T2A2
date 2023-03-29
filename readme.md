@@ -23,6 +23,8 @@
 
 [**R10** - Describe the way tasks are allocated and tracked in your project](#req10)
 
+[References](#references)
+
 
 ## Installation instructions <a name="installation"></a>
 
@@ -74,7 +76,7 @@ The purpose of this application is to store data for drone flights. It is intend
 The application allows the user to create and retrieve flight logs of the drone flights, as well as linking the information of the drone that was used and the pilot that flew it. 
 
 In a business setting, a company which utilises a number of drones may find it useful to keep a record of which individual is flying which drone and when, and how the job went. 
-A group of racers might hold a comp and need to log their flight times (__might need to change flight minutes or change this sentence). 
+A group of racers might hold a comp and need to log their flight times.
 Engineers may may need to record how a drone with a certain build performed in a particular weather event. 
 
 An improvement in the flight protocol to include logs can provide a more organised structure to the maintaining of a drones performance and auditing of its intended purpose. Something about the existence of logs helping to draw conclusions about: Examples include: 
@@ -1644,3 +1646,5 @@ Endpoints are presented in the following format:
 		"posted_by_user": 1
 	}
 ]
+
+## References <a name="references></a>
