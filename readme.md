@@ -190,7 +190,7 @@ Additionally, ORM provides application portability as it allows the program to b
 
 ## R6 - An ERD for your app <a name="req6"></a>
 
-![T2A2-ERD](./docs/T2A2%20ERD.png)
+![T2A2-ERD](./docs/ERD.png)
 
 
 ## R7 - Detail any third party services that your app will use <a name="req7"></a>
@@ -578,6 +578,8 @@ Tasks were allocated and tracked using Trello. See my Trello board below:
 [https://trello.com/b/Madtwb36/api-web-server-drone-logs](https://trello.com/b/Madtwb36/api-web-server-drone-logs)
 
 Four stages were created on the Trello board; To do, In Progress, Done and For review. The cards were moved into the appropriate stages each time I revisited the Trello board.
+
+![T2A2-Trello](./docs/trello-ss.png)
 
 Tasks that were set and recorded on the Trello board include:
 
