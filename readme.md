@@ -31,7 +31,7 @@
 
 Clone or download the repository from Github. 
 
-Ensure that PostgreSQL is installed. Open command line/terminal and run the following commands:
+Ensure that Python 3 and PostgreSQL is installed. Open command line/terminal and run the following commands:
 
 ```psql```
 
