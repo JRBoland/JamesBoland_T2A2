@@ -112,7 +112,7 @@ Additionally, the culture of 'modular' drones has seen a great rise (though main
 
 For my project I have chosen to use PostgreSQL as the database management system. 
 
-> “PostgreSQL is an open-source object relational database system with advanced, enterprise-grade capabilities.”^1^
+> “PostgreSQL is an open-source object relational database system with advanced, enterprise-grade capabilities.”<sup>1</sup>
 > 
 
 I have chosen this database system for the following reasons: 
@@ -120,7 +120,7 @@ I have chosen this database system for the following reasons:
 - PostgreSQL is an Object Relational Database Management System (ORDBMS) which is able to support both SQL (relational) and JSON (non-relational) queries. It is compatible with Python and flask as well as other third party software used in the development of this app (SQLAlchemy, Marshmallow, JWT).
 - As it is an ORDBMS, it maintains the perks of a Relational Database Management System (RDBMS) (storing data in table like structures that may be queried with SQL), with the addition of support for object oriented programming concepts, such as table inheritance and custom data types.
 - PostgreSQL software is open source, meaning that it is freely available to use, resulting in no cost for startup or upgrades.
-- Has high level, three pillared security with a focus on network-level security, transport-level security and database-level security. It supports user authentication and authorisation, as well as utilising hashing for one-way encryption in the storage of users passwords^2^.
+- Has high level, three pillared security with a focus on network-level security, transport-level security and database-level security. It supports user authentication and authorisation, as well as utilising hashing for one-way encryption in the storage of users passwords<sup>2</sup>.
 - It is highly customisable, and supports a wide range of data types.
 - It has a long development history (30+ years) and a large and active community, resulting in a lot of resources and supporting documentation to assist in production.
 - Though not yet fully utilised, it is highly scalable, making it suitable for an enterprise level application that handles large amounts of data.
