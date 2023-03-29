@@ -5,22 +5,23 @@ from models.flight_log import FlightLog
 from models.pilot import Pilot
 from models.user import User
 
+# Set the blueprint
 db_cmd = Blueprint("db", __name__)
 
-
+# Create tables
 @db_cmd.cli.command('create')
 def create_db():
     db.create_all()
     print('Tables Created')
 
-
+# Drop tables
 @db_cmd.cli.command('drop')
 def drop_db():
     db.drop_all()
     print('Tables Dropped')
 
+# Function for seed command, to be used with reset command below
 
-#@db_cmd.cli.command('seed')
 def seed_db():
 
     user1 = User(
@@ -218,7 +219,8 @@ def seed_db():
     print("Tables Seeded")
 
 
-# Reset db CLI command
+# Reset db CLI command with seed
+
 @db_cmd.cli.command('reset')
 def reset_db():
     db.drop_all()

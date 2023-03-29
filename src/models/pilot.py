@@ -1,5 +1,6 @@
 from main import db
 
+
 class Pilot(db.Model):
     # Define table name for db
     __tablename__= "PILOTS"

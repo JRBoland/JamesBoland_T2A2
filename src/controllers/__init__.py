@@ -5,6 +5,7 @@ from controllers.drones_controller import drone
 from controllers.pilots_controller import pilot
 from controllers.auth_controller import auth
 
+# Sets controllers
 registerable_controllers = [
     home,
     user,

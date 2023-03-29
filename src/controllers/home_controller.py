@@ -1,10 +1,10 @@
 from flask import Blueprint
-#parent url
+# Parent url, blueprint
 home = Blueprint('home', __name__, url_prefix="/")
 
-#child url
+# Child url
 @home.get("/")
 def get_home_page():
-        return"<p><b>Flight Logs API</b> View the readme at https://github.com/JRBoland/JamesBoland_T2A2 for information on the endpoints.<br>  "
+        return"<p><b>Flight Logs API</b> View https://github.com/JRBoland/JamesBoland_T2A2#req5 for information on the endpoints.<br>  "
 
 

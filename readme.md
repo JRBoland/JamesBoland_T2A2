@@ -112,7 +112,7 @@ Additionally, the culture of 'modular' drones has seen a great rise (though main
 
 For my project I have chosen to use PostgreSQL as the database management system. 
 
-> “PostgreSQL is an open-source object relational database system with advanced, enterprise-grade capabilities.”
+> “PostgreSQL is an open-source object relational database system with advanced, enterprise-grade capabilities.”^1^
 > 
 
 I have chosen this database system for the following reasons: 
@@ -120,7 +120,7 @@ I have chosen this database system for the following reasons:
 - PostgreSQL is an Object Relational Database Management System (ORDBMS) which is able to support both SQL (relational) and JSON (non-relational) queries. It is compatible with Python and flask as well as other third party software used in the development of this app (SQLAlchemy, Marshmallow, JWT).
 - As it is an ORDBMS, it maintains the perks of a Relational Database Management System (RDBMS) (storing data in table like structures that may be queried with SQL), with the addition of support for object oriented programming concepts, such as table inheritance and custom data types.
 - PostgreSQL software is open source, meaning that it is freely available to use, resulting in no cost for startup or upgrades.
-- Has high level, three pillared security with a focus on network-level security, transport-level security and database-level security. It supports user authentication and authorisation, as well as utilising hashing for one-way encryption in the storage of users passwords(1).
+- Has high level, three pillared security with a focus on network-level security, transport-level security and database-level security. It supports user authentication and authorisation, as well as utilising hashing for one-way encryption in the storage of users passwords^2^.
 - It is highly customisable, and supports a wide range of data types.
 - It has a long development history (30+ years) and a large and active community, resulting in a lot of resources and supporting documentation to assist in production.
 - Though not yet fully utilised, it is highly scalable, making it suitable for an enterprise level application that handles large amounts of data.
@@ -128,10 +128,10 @@ I have chosen this database system for the following reasons:
 Finally, PostgresQL meets ACID compliance, a computer science term that stands for atomicity, consistency, isolation, and durability. 
 
 > “They represent the key guarantees that database transactions must support to avoid validity errors and maintain data integrity. 
-ACID compliance is a primary concern for relational databases as it represents the typical expectations for storing and modifying highly structured data.” (2)
+ACID compliance is a primary concern for relational databases as it represents the typical expectations for storing and modifying highly structured data.” ^3^
 > 
 
-For the purpose of this particular project, PostgreSQL does not have many drawbacks other than initial set up complexity and a steeper learning curve(3). However if the application were to scale and upgrade over time, it’s disadvantages should be considered. Some of the further drawbacks include:
+For the purpose of this particular project, PostgreSQL does not have many drawbacks other than initial set up complexity and a steeper learning curve^4^. However if the application were to scale and upgrade over time, it’s disadvantages should be considered. Some of the further drawbacks include:
 
 - Performance limitations. Whilst PostgreSQL is very capable when it comes to scaling, it is not highest in class when it comes to speed, MySQL is considered faster.
 - Fewer third party tools. As PostgreSQL is not the most popular DBMS (MySQL is the most popular), resulting in less third-party tools that are available to implement.
@@ -140,7 +140,7 @@ For the purpose of this particular project, PostgreSQL does not have many drawba
 
 This project utilises SQLAlchemy, a popular pythonic ORM to write simpler queries when interacting with the database. 
 
-Object-Relational Mapping, or ORM, is a programming technique that provides a way to map object oriented programming (OOP) to relational databases(1). ORM libraries (such as SQLAlchemy) provide tools for developers’ to write simpler code to work with SQL databases through a high level of abstraction to perform CRUD (create, read, update, delete) operations by being the intermediary between the application’s code and the SQL database, providing a more object-oriented approach to creating and performing the databases’ interactions. 
+Object-Relational Mapping, or ORM, is a programming technique that provides a way to map object oriented programming (OOP) to relational databases^5^. ORM libraries (such as SQLAlchemy) provide tools for developers’ to write simpler code to work with SQL databases through a high level of abstraction to perform CRUD (create, read, update, delete) operations by being the intermediary between the application’s code and the SQL database, providing a more object-oriented approach to creating and performing the databases’ interactions^6^. 
 
 Some key functionalities of an ORM include that they allow developers to map objects (or models) to the tables within a relational database. The properties of the models class define the columns of the database table, and the instances of the objects themselves are expressed as a row in the SQL table (see files in `src/models/`). 
 
@@ -201,19 +201,19 @@ Additionally, ORM provides application portability as it allows the program to b
 
 This application has been built using Flask, a web application framework that makes it easier for  developers to build web applications and RESTful web services. It is based on the Werkzeug WSGI (Web Server Gateway Interface) toolkit to handle web server requests and responses, and uses the Jinja2 template engine.  
 
-Flask allows developers to quickly build scalable applications with its support for extensions. It’s a micro framework that provides features to assist development without needing to worry about low level details. It’s easy to set up, making it a good choice for small to medium sized web applications. Additionally, the Flask framework is extensible, with many libraries that are tailored to integrate and expand its functionality.
+Flask allows developers to quickly build scalable applications with its support for extensions. It’s a micro framework that provides features to assist development without needing to worry about low level details. It’s easy to set up, making it a good choice for small to medium sized web applications. Additionally, the Flask framework is extensible, with many libraries that are tailored to integrate and expand its functionality. ^7, 8, 9^
 
 **SQLAlchemy**
 
 SQLAlchemy is a Python library and Object Relational Mapper that gives the developer the full power and flexibility of SQL (Structured Query Language) in development, providing a high level abstraction to provide a “Pythonic” way of interacting with databases. It has been used with this application to map defined models (`User`, `Drone`, `Pilot`, `FlightLog`) to tables on the database (PostgreSQL). Through using SQLAlchemy, no SQL queries are required in order to communicate with the database. 
 
-It is used in conjunction with Flask-SQLAlchemy, an extension for Flask that adds support and provides integration between Flask and SQLAlchemy through providing simpler ways for the developer to connect to a database and define models and Python classes, as well as performing database operations.
+It is used in conjunction with Flask-SQLAlchemy, an extension for Flask that adds support and provides integration between Flask and SQLAlchemy through providing simpler ways for the developer to connect to a database and define models and Python classes, as well as performing database operations. ^10, 11^
 
 **Marshmallow**
 
 Marshmallow is an Object-Relational Mapping library that has been used to simplify the process of serialising and deserialising Python objects. It is used to convert objects (in this case, JSON strings) to and from Python data types. Marshmallow utilises a “schema” (blueprint) to define and validate input data, convert the input data to a JSON string to use with the API, and serialise the JSON string back to native Python types (defined by the schema). 
 
-Marshmallow is used in conjunction with Flask-Marshmallow, a flask extension that provides integration between Flask and Marshmallow. Like Flask-SQLAlchemy, it provides simpler ways for the developer to use the Marshmallow library within a Flask environment with improved syntax and support. Some files include use of the `marshmallow-sqlalchemy` library, providing further integration between Marshmallow and SQLALchemy.
+Marshmallow is used in conjunction with Flask-Marshmallow, a flask extension that provides integration between Flask and Marshmallow. Like Flask-SQLAlchemy, it provides simpler ways for the developer to use the Marshmallow library within a Flask environment with improved syntax and support. Some files include use of the `marshmallow-sqlalchemy` library, providing further integration between Marshmallow and SQLALchemy. ^12^
 
 **JSON Web Tokens (JWT)**
 
@@ -221,17 +221,17 @@ JSON Web Tokens (JWT) is an open standard for securely transmitting information 
 
 JWT-Flask-Extended is used as a flask extension to provide integration between Flask and JWT, simplifying the process of integrating JWT authentication and authorisation. The use of JWT within this application protects certain (admin) routes and their methods (DELETE, PUT, PATCH, and some POST methods) by ensuring that only authorised users can perform the methods or access the protected routes (through verifying that the user has admin permissions via the users JWT).  
 
-This API web server requires that a user is logged in in order to access any of the routes outside of the `/auth/login`and `/auth/register` routes. Certain routes require further admin level authorisation. This is done through the use of JWT decorators indicating that a token is required (`@jwt_required`) assigned to each route, providing a simple and effective way to secure the API without need for complex authentication/authorisation code.
+This API web server requires that a user is logged in in order to access any of the routes outside of the `/auth/login`and `/auth/register` routes. Certain routes require further admin level authorisation. This is done through the use of JWT decorators indicating that a token is required (`@jwt_required`) assigned to each route, providing a simple and effective way to secure the API without need for complex authentication/authorisation code. ^13, 14^
 
 **Bcrypt**
 
 Bcrypt was used to hash and salt (adding additional random data to the input of a hashing function that makes each password hash unique(1)) users passwords. Passwords are not stored in plain text within the database, but are hashed as they are associated with the User record. Hashing is different to encryption, as encryption is a two-way process that allows for the data to be decrypted (and thus read again). Hashing is one way through its use of salt, and as a result cannot be decrypted. Through storing a password and transforming it into data that can be checked, however can not be converted back to the original password, provides functionality without compromising password security.
 
-Flask-Bcrypt (A Flask extension) was used to provide bcrypt functionality to the Flask application.
+Flask-Bcrypt (A Flask extension) was used to provide bcrypt functionality to the Flask application. ^15, 16^
 
 **Psycopg2**
 
-Pyscopg2 is a Python library that is used to connect and interact with PostgreSQL. It is used to establish a connection to the PostgreSQL database and execute SQL queries, abstracted via SQLAlchemy. It allows for a pythonic way to cover CRUD (Create, Read, Update, Delete) functionality via executing SQL queries and retrieving the results.
+Pyscopg2 is a Python library that is used to connect and interact with PostgreSQL. It is used to establish a connection to the PostgreSQL database and execute SQL queries, abstracted via SQLAlchemy. It allows for a pythonic way to cover CRUD (Create, Read, Update, Delete) functionality via executing SQL queries and retrieving the results. ^17^
 
 **Insomnia** was used to test API endpoints functionality:
 
@@ -1632,6 +1632,7 @@ Endpoints are presented in the following format:
 - JSON Body: None
 - *The expected response is the record of the flight_log that is deleted. Example expected response when deleting flight_log with id: 1, localhost:5000/flight_log/1:*
 
+```json
 [
 	{
 		"drone_id": 1,
@@ -1646,5 +1647,19 @@ Endpoints are presented in the following format:
 		"posted_by_user": 1
 	}
 ]
+```
 
 ## References <a name="references"></a>
+
+1. PostgreSQL. (n.d.). Retrieved from **[https://www.postgresql.org/](https://www.postgresql.org/)**
+2. Satori Cyber. (2021, July 28). 3 Pillars of PostgreSQL Security. Retrieved from **[https://satoricyber.com/postgres-security/3-pillars-of-postgresql-security/](https://satoricyber.com/postgres-security/3-pillars-of-postgresql-security/)**
+3. Prisma. (n.d.). Benefits of PostgreSQL. Retrieved from **[https://www.prisma.io/dataguide/postgresql/benefits-of-postgresql](https://www.prisma.io/dataguide/postgresql/benefits-of-postgresql)**
+4. Altexsoft. (2021, August 2). Comparing Database Management Systems: MySQL, PostgreSQL, MSSQL Server, MongoDB, Elasticsearch, and Others. Retrieved from **[https://www.altexsoft.com/blog/business/comparing-database-management-systems-mysql-postgresql-mssql-server-mongodb-elasticsearch-and-others/](https://www.altexsoft.com/blog/business/comparing-database-management-systems-mysql-postgresql-mssql-server-mongodb-elasticsearch-and-others/)**
+5. freeCodeCamp. (2021, July 27). What is an ORM? The Meaning of Object-Relational Mapping Database Tools. Retrieved from **[https://www.freecodecamp.org/news/what-is-an-orm-the-meaning-of-object-relational-mapping-database-tools/](https://www.freecodecamp.org/news/what-is-an-orm-the-meaning-of-object-relational-mapping-database-tools/)**
+6. Zelinsky, A. (2019, April 5). What is Object-Relational Mapping (ORM)? Retrieved from **[https://medium.com/@alexzelinsky124/what-is-object-relational-mapping-orm-4b7d98bbb16f](https://medium.com/@alexzelinsky124/what-is-object-relational-mapping-orm-4b7d98bbb16f)**
+7. TutorialsPoint. (n.d.). Flask - Overview. Retrieved from **[https://www.tutorialspoint.com/flask/flask_overview.htm](https://www.tutorialspoint.com/flask/flask_overview.htm)**
+8. CareerFoundry. (n.d.). What is Flask? Retrieved from **[https://careerfoundry.com/en/blog/web-development/what-is-flask/](https://careerfoundry.com/en/blog/web-development/what-is-flask/)**
+9. Python Basics. (n.d.). What is Flask? Retrieved from **[https://pythonbasics.org/what-is-flask-python/](https://pythonbasics.org/what-is-flask-python/)**
+10. Towards Data Science. (2021, February 12). SQLAlchemy Python Tutorial. Retrieved from **[https://towardsdatascience.com/sqlalchemy-python-tutorial-79a577141a91](https://towardsdatascience.com/sqlalchemy-python-tutorial-79a577141a91)**
+11. Flask-SQLAlchemy Documentation. (n.d.). Retrieved from **[https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/](https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/)**
+12. Marshmallow Documentation. (n.d.). Retrieved from **[https://marshmallow.readthedocs.io/en/stable/](https://marshmallow.readthedocs.io/en/stable/)**
