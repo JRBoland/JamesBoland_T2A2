@@ -173,17 +173,9 @@ Pyscopg2 is a Python library that is used to connect and interact with PostgreSQ
 
 The models in this project are User, Drone, Pilot, and FlightLog, found in their respective files within the `/src/models/` folder. Their data fields and relationship amongst themselves have been defined with SQLAlchemy `(db.Model)` (where `db = SQLALchemy` from `flask_sqlalchemy`).
 
-The relationships between the models is as follows:
-
-Pilot: 
-
-- One to many relationship with flight_logs (a pilot can have many flights),
-- Many to many relationship with drones. A drone can be flown by many different pilots and a pilot can fly many different drones).
-- Can only be created by one user.
-
 **User model:**
 
-*******user.py*******
+*user.py*
 
 A User with an email and password must be registered to login and access the API. Once a User is logged in, they are able to post and read a flight log, and read pilot and drone information. 
 
@@ -209,7 +201,7 @@ class User(db.Model):
 
 - `__tablename__` defines the table name to be mapped to the model.
 - `id = db.Column(db.Integer, primary_key=True)` Creates a column titled ‘id’, of the integer data type. This will be the primary key, and auto increment through each creation of a new User. Not to be set by the user but instead looked after by SQLAlchemy.
-- The remaining attribute fields (`email`, `username`, `password`, `is_admin`are established, with their data type and character limit (`String()` or `Boolean`) set. Mandatory fields are noted by the `nullable=` clause and fields which are required to be unique (not already existing) are noted with boolean clause `unique=`.
+- The remaining attribute fields (`email`, `username`, `password`, `is_admin`) are established, with their data type and character limit (`String()` or `Boolean`) set. Mandatory fields are noted by the `nullable=` clause and fields which are required to be unique (not already existing) are noted with boolean clause `unique=`.
 - The `is_admin` attribute is not mandatory and will revert to false if not included upon creation. `is_admin` is used to determine if a user is authorised for certain routes (see endpoints).
 
 - Relationships:
@@ -220,7 +212,7 @@ class User(db.Model):
 
 **Pilot model:**
 
-********pilot.py********
+*pilot.py*
 
 ```python
 from main import db
@@ -277,7 +269,7 @@ flights_recorded = fields.Method("count_flight_logs")
 user_id = get_jwt_identity()
 user = User.query.get(user_id)
 ... 
-pilot_fields["created_by_user_id"] = [user.id](http://user.id/)
+pilot_fields["created_by_user_id"] = [user.id]
 ```
 
 - Relationships:
@@ -288,7 +280,7 @@ pilot_fields["created_by_user_id"] = [user.id](http://user.id/)
 
 **Drone model:**
 
-********drone.py********
+*drone.py*
 
 ```python
 from main import db
@@ -319,7 +311,7 @@ class Drone(db.Model):
 
 - `__tablename__` defines the table name to be mapped to the model.
 - `id = db.Column(db.Integer, primary_key=True)` creates a column with the title ‘id’, of the integer data type. This will be the primary key for the Drone record and will auto increment with each creation of a new Drone. Not to be set by the user but instead looked after by SQLAlchemy.
-- The remaining attribute fields (`build_specifications`, `weight_gms`, `developed_by`, `year_of_manufacture`, `last_service`) are established, with their data type and character limit (`String()`, `Integer()`, or `Date()`. Mandatory fields are noted by the `nullable=` clause.
+- The remaining attribute fields (`build_specifications`, `weight_gms`, `developed_by`, `year_of_manufacture`, `last_service`) are established, with their data type and character limit (`String()`, `Integer()`, or `Date()`). Mandatory fields are noted by the `nullable=` clause.
 - `drones_flight_logs` is a `relationship` that establishes the one-to-many relationship between the `Drone` model and the `FlightLog` model. This allows for the easy retrieval of all flight logs associated with a particular drone.
 - The `created_by_user_id` attribute is a foreign key that references the `id` column in the `USERS` table, showing which user created the drone record. `nullable=False` clause indicates that each drone must be created by (and associated with) a user. It has been coded to pull the user id from the current user, as seen in this code when posting a Drone record:
     
@@ -331,7 +323,7 @@ class Drone(db.Model):
 user_id = get_jwt_identity()
 user = User.query.get(user_id)
 ... 
-drone_fields["created_by_user_id"] = [user.id](http://user.id/)
+drone_fields["created_by_user_id"] = [user.id]
 ```
 
 - Relationships:
@@ -344,7 +336,7 @@ drone_fields["created_by_user_id"] = [user.id](http://user.id/)
 
 A flight log model is to be posted by a user, and contains the foreign key information of the associated drone id, pilot id and the user which posted the flight log.
 
-*************flight_log.py*************
+*flight_log.py*
 
 ```python
 from main import db
@@ -388,7 +380,7 @@ class FlightLog(db.Model):
 - The `footage_recorded` attribute is a boolean column that indicates whether footage was recorded during the flight or not. `load_default=False` indicates that if this field is not included when creating a new FlightLog, it will default to `False`.
 - The `flight_performance_rating_of_10` attribute is an integer column that must be between 1 and 10, and is validated against logic within the flight log schema.
     
-    *********************flight_logs_schema.py:*********************
+    **flight_logs_schema.py:*
     
     ```python
     ...
@@ -400,11 +392,12 @@ class FlightLog(db.Model):
         flight_performance_rating_of_10 = fields.Integer(
             validate=validate_flight_performance_rating_of_10,
             required=True
+        )
     ```
     
 - The foreign key attributes (`drone_id`, `pilot_id`, `posted_by_user`) reference the `id` column of the respective tables (`DRONES`, `PILOTS`, `USERS`) and show which drone, pilot, and user created the FlightLog record. `nullable=False` indicates that each FlightLog must be associated with a drone, pilot, and user. It has been coded to pull the user id from the current user, as seen in this code when posting a FlightLog record:
     
-    **************************flight_logs_controller.py:**************************
+    *flight_logs_controller.py:*
     
 
 ```python
@@ -412,7 +405,7 @@ class FlightLog(db.Model):
 user_id = get_jwt_identity()
 user = User.query.get(user_id)
 ... 
-flight_log_fields["created_by_user_id"] = [user.id](http://user.id/)
+flight_log_fields["created_by_user_id"] = [user.id]
 ```
 
 - Relationships:
@@ -525,7 +518,7 @@ Endpoints are presented in the following format:
 }
 ```
 
-- **************************Expected response includes encrypted password token (JWT):**************************
+- *Expected response includes encrypted password token (JWT):*
 
 ```json
 {
@@ -547,7 +540,7 @@ Endpoints are presented in the following format:
 }
 ```
 
-- ******************Expected response:******************
+- *Expected response:*
 
 ```json
 {
@@ -574,7 +567,7 @@ Endpoints are presented in the following format:
 }
 ```
 
-- ******************Expected response returns the user’s email address and encrypted password token (JWT):******************
+-*Expected response returns the user’s email address and encrypted password token (JWT):*
 
 ```json
 {
@@ -645,7 +638,7 @@ Endpoints are presented in the following format:
 - Local host URL: localhost:5000/users/<int:id>
 - JSON Body: None
 - *Example expected response when deleting user with id: 1, localhost:5000/users/1*
-    - *******************************************************Response will show the record of the user that is deleted:*******************************************************
+    - *Response will show the record of the user that is deleted:*
 
 ```python
 {
@@ -735,7 +728,7 @@ Endpoints are presented in the following format:
 }
 ```
 
-- *****************************************************The expected response will be the same as the JSON Body input, plus additional fields of an assigned `"*id*****************************************************"` and `"*created_by_user_id*****************************************************"`:*
+- *The expected response will be the same as the JSON Body input, plus additional fields of an assigned `"id"` and `"created_by_user_id"`:*
 
 ```json
 {
@@ -768,7 +761,7 @@ Endpoints are presented in the following format:
 }
 ```
 
-- *****************************************************The expected response will be the same as the JSON Body input, plus additional fields of the drones `"*id*****************************************************"` and its assigned`"*created_by_user_id*****************************************************"`:*
+- *The expected response will be the same as the JSON Body input, plus additional fields of the drones `"id"` and its assigned`"created_by_user_id"`:*
 
 ```json
 {
@@ -797,7 +790,7 @@ Endpoints are presented in the following format:
 }
 ```
 
-- *****************************************************The expected response will be the specified drones record, with the updated `"*last_service*****************************************************"` field.*
+- *The expected response will be the specified drones record, with the updated `"last_service"` field.*
 
 ```json
 {
@@ -854,7 +847,7 @@ Endpoints are presented in the following format:
 }
 ```
 
-- *****************************************************The expected response will be the same as the JSON Body input, plus additional fields of the flight_logs linked***************************************************** `"flights_recorded"`, *****************************************************an assigned `"*id*****************************************************"` and `"*created_by_user_id*****************************************************"`:*
+- *The expected response will be the same as the JSON Body input, plus additional fields of the flight_logs linked* `"flights_recorded"`, *an assigned* `"id"` *and* `"created_by_user_id"`*:*
 
 ```json
 {
@@ -965,7 +958,7 @@ Endpoints are presented in the following format:
 }
 ```
 
-- *The expected response is the specified record with updated changes. It is the same as the JSON body with the additional fields of the specified* `"id"` ******************and the assigned****************** `"created_by_user_id"`. ***********Example expected PUT outcome of the above JSON body, localhost:5000/pilots/1:***********
+- *The expected response is the specified record with updated changes. It is the same as the JSON body with the additional fields of the specified* `"id"` *and the assigned* `"created_by_user_id"`. *Example expected PUT outcome of the above JSON body, localhost:5000/pilots/1:*
 
 ```json
 {
@@ -1198,7 +1191,8 @@ Endpoints are presented in the following format:
 		"Flown by Pilot ID": 4,
 		"Location": "Hyde Park, Sydney, NSW 2000",
 		"Pilot name": "James Daniels"
-},
+  }
+]
 ```
 
 ### Route: “/drones/<int:drone_id>”
@@ -1568,3 +1562,18 @@ Endpoints are presented in the following format:
 - Local host URL: localhost:5000/flight_logs/<int:id>
 - JSON Body: None
 - *The expected response is the record of the flight_log that is deleted. Example expected response when deleting flight_log with id: 1, localhost:5000/flight_log/1:*
+
+[
+	{
+		"drone_id": 1,
+		"flight_date": "2023-01-17",
+		"flight_location": "Maddens Plains, NSW",
+		"flight_minutes": 22,
+		"flight_performance_rating_of_10": 6,
+		"flight_time": "14:52:00",
+		"footage_recorded": true,
+		"id": 1,
+		"pilot_id": 2,
+		"posted_by_user": 1
+	}
+]
