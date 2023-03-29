@@ -28,6 +28,7 @@
 
 ## Installation instructions <a name="installation"></a>
 
+
 Clone or download the repository from Github. 
 
 Ensure that PostgreSQL is installed. Open command line/terminal and run the following commands:
@@ -71,6 +72,7 @@ You should be able to use the application in your browser with the URL prefix 12
 
 ## R1 - Identification of the problem you are trying to solve by building this particular app. <a name="req1"></a>
 
+
 The purpose of this application is to store data for drone flights. It is intended to by used by either organisations or individuals that require a form of a record keeping and data storage tool. For a hobbyist or organisation that utilises a number of drones, it's a measure of good practice to record the details of the flights as a form of documenting the flight that took place. 
 
 The application allows the user to create and retrieve flight logs of the drone flights, as well as linking the information of the drone that was used and the pilot that flew it. 
@@ -79,7 +81,7 @@ In a business setting, a company which utilises a number of drones may find it u
 A group of racers might hold a comp and need to log their flight times.
 Engineers may may need to record how a drone with a certain build performed in a particular weather event. 
 
-An improvement in the flight protocol to include logs can provide a more organised structure to the maintaining of a drones performance and auditing of its intended purpose. Something about the existence of logs helping to draw conclusions about: Examples include: 
+An improvement in the flight protocol to include logs can provide a more organised structure to the maintaining of a drones performance and auditing of its intended purpose. Examples include:
 
 - Logs of drones which are damaged or perform poorly in certain circumstances
 - How a pilot performs with certain drones
@@ -90,14 +92,15 @@ An improvement in the flight protocol to include logs can provide a more organis
 
 Within the application, an organisation or individual may be registered as a User, which is then able to create (log) a drone flight, along with its affiliated pilot and drone. The User is also able to access and read the other flights available.
 
-A separate (or could be the same - reword) account may also be made with administration privileges that can also delete a log. They are also able to create, edit, or delete a pilot or drone on top of the regular User features.
+A User may also have administration privileges that can also delete or update a log. 
+They are also able to create, update, or delete a pilot or drone on top of the regular User features.
 
 With this, an organisation or individual or group of hobbyists can keep a track on which pilot flew which drone whilst also having a log of custom further details.
 
 
 ## R2 - Why is it a problem that needs solving? <a name="req2"></a>
 
-(mention how theyre in the military too maybe)
+
 With great advancements in its space over the last decade, drones have seen a great rise in popularity across various different fields. Beyond the recognised instances of using a drone to record footage of nature or sports, it's common to see they're now being used for further business-related purposes such as recording weddings or real estate/construction site inspections. Beyond filming footage, they're also being used to transport small goods, monitor weather conditions, or even race in a competitive setting. There is a demand for drones that are custom built for certain purposes. 
 
 Additionally, the culture of 'modular' drones has seen a great rise (though mainly in the racing scene), with a following of keen hobbyists and engineers mixing and matching parts to build their own custom drone. From this it can be seen how keeping a record of how these custom drones, built to their missions objective, can prove useful for its users. Whether in a business or as an individual hobbyist, keeping logs can prove useful for various different reasons;
@@ -107,8 +110,11 @@ Additionally, the culture of 'modular' drones has seen a great rise (though main
 - To keep a tally on which footage was recorded where, and when
 - To log which pilot flew the drone for a certain flight
 
+This API is scalable and with minor changes in code can have custom fields that are tailored towards a specific field's flight logging requirements.
+
 
 ## R3 - Why have you chosen this database system. What are the drawbacks compared to others? <a name="req3"></a>
+
 
 For my project I have chosen to use PostgreSQL as the database management system. 
 
@@ -136,7 +142,9 @@ For the purpose of this particular project, PostgreSQL does not have many drawba
 - Performance limitations. Whilst PostgreSQL is very capable when it comes to scaling, it is not highest in class when it comes to speed, MySQL is considered faster.
 - Fewer third party tools. As PostgreSQL is not the most popular DBMS (MySQL is the most popular), resulting in less third-party tools that are available to implement.
 
+
 ## R4 - Identify and discuss the key functionalities and benefits of an ORM <a name="req4"></a>
+
 
 This project utilises SQLAlchemy, a popular pythonic ORM to write simpler queries when interacting with the database. 
 
@@ -186,14 +194,19 @@ Additionally, ORM provides application portability as it allows the program to b
 
 ## R5 - Document all endpoints for your API 
 
-[See end of page](#req5)
+
+[Click here to view the API's endpoints.](#req5)
 
 ## R6 - An ERD for your app <a name="req6"></a>
+
+
+**For a further explanation on this ERD, see [R9](#R9)
 
 ![T2A2-ERD](./docs/ERD.png)
 
 
 ## R7 - Detail any third party services that your app will use <a name="req7"></a>
+
 
 **PostgreSQL** was used as the database for this project.
 
@@ -239,6 +252,7 @@ Pyscopg2 is a Python library that is used to connect and interact with PostgreSQ
 
 
 ## R8 - Describe your projects models in terms of the relationships they have with each other <a name="req8"></a>
+
 
 The models in this project are User, Drone, Pilot, and FlightLog, found in their respective files within the `/src/models/` folder. Their data fields and relationship amongst themselves have been defined with SQLAlchemy `(db.Model)` (where `db = SQLALchemy` from `flask_sqlalchemy`).
 
@@ -485,6 +499,7 @@ flight_log_fields["created_by_user_id"] = [user.id]
 
 ## R9 - Discuss the database relations to be implemented in your application <a name="req9"></a>
 
+
 Please see the ERD in R6 for further understanding of the relations that were to be implemented as part of planning for the build of the application.
 
 The relations between each entity are visually shown on the ERD.
@@ -535,37 +550,38 @@ Pilots relationships:
 
 ## R10 - Describe the way tasks are allocated and tracked in your project <a name="req10"></a>
 
+
 Prior to starting the build project, a project idea was presented and discussed with an educator. 
 
-The initial proposal is as follows:
+The initial proposal was as follows:
 
 > For my API Web Server i’m proposing a drone flight log API  
 >
 > It’s intended for use by a business or group that regularly flies drones for a specific purpose (such as flyby site inspections, aerial photography, racing etc.) and aims to log drone flights to keep a record of which pilot and drone were involved in the flight, as well as other metrics that may be relevant data (such as weather and performance) to store for the recorded flight. The entities that will exist are users, pilots, drones and flight_logs. A user may/may not have admin privileges. 
 >
->> A user will be able to create and read a flight log. 
->> A user will be able to read a pilot or drone card.
+> A user will be able to create and read a flight log. 
+> A user will be able to read a pilot or drone card.
 >
->> A user with admin privileges will be able to create, read, update and delete pilot and drone cards.
->> A user with admin privileges will be able to update or delete an existing flight log. 
+> A user with admin privileges will be able to create, read, update and delete pilot and drone cards.
+> A user with admin privileges will be able to update or delete an existing flight log. 
 >
 > A user has the following relationships:
 >
->> one to many relationship with pilots 
->> one to many relationship with drones 
->> one to many relationship with flight logs
+> One to many relationship with pilots 
+> One to many relationship with drones 
+> One to many relationship with flight logs
 >
 > In all cases, one user can create and have an association with multiple records of the other entities (flight logs, drones, pilots)
 >
 > A pilot has the following relationships:
 >
->> one to many relationship with flight_logs (A pilot can have many flights)
->> many to many relationship with drones (A pilot can fly many different drones, a drone can be flown by many different pilots) 
+> One to many relationship with flight_logs (A pilot can have many flights)
+> Many to many relationship with drones (A pilot can fly many different drones, a drone can be flown by many different pilots) 
 >
 > A drone has the following relationships:
 >
->> one to many relationship with flight_logs (A drone can be associated with many flight logs)
->> many to many relationship with pilots
+> One to many relationship with flight_logs (A drone can be associated with many flight logs)
+> Many to many relationship with pilots
 >
 > The flight logs would store an ID of the pilot and drone as FK’s.
 >
@@ -645,9 +661,9 @@ Tasks that were set and recorded on the Trello board include:
 - **Documentation**
     - R1 through 10
 
+
 ## R5 - Document all endpoints for your API <a name="req5"></a>
 
-## ENDPOINTS
 
 Endpoints are presented in the following format:
 
