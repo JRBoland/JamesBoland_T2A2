@@ -11,12 +11,8 @@ bcrypt = Bcrypt()
 jwt = JWTManager()
 
 def create_app():
-    #using a list comprehension and multiple assignment 
-    #to grab the environment variables we need
-
     #initialize app by creating flask app object
     app = Flask(__name__)
-    #app.config['JSON_SORT_KEYS'] = False
     
     #configuring our app from object
     app.config.from_object("config.app_config")

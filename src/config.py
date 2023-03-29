@@ -1,29 +1,25 @@
 import os
 
-#DO NOT INCLUDE. In theory this line alone could work for basic config
-#app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = os.environ.get("DATABASE_URL")
-
-
 class Config(object):
-    #To avoid getting terminal warnings
+    # To avoid getting terminal warnings
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JWT_SECRET_KEY = os.environ.get("SECRET_KEY")
 
-    #access to .env and get the value of  SECRET_KEY, the variable name can be any but needs to match
-    #JWT_SECRET_KEY = os.environ.get("SECRET_KEY")
-
-    @property #creates a getter and setter property
+    # Creates a getter and setter property
+    @property 
     def SQLALCHEMY_DATABASE_URI(self):
-        #access to .env and get the value of DATABASE_URL, the ariable name can be any but needs to match
+        #access to .env and get the value of DATABASE_URL, 
+        # the variable name can be any but needs to match
         db_url = os.environ.get("DATABASE_URL")
 
         if not db_url:
-            #so the user can know what the issue is
+            # Inform the user of error
             raise ValueError("DATABASE_URL is not set")
         
         return db_url
 
 
+# Setting config
 class DevelopmentConfig(Config):
     DEBUT = True
 
