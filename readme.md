@@ -249,7 +249,7 @@ class Pilot(db.Model):
     Found in the file *pilots_schema.py*:
     
 
-```json
+```python
 ...
 flights_recorded = fields.Method("count_flight_logs")
 
