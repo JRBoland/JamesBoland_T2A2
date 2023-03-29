@@ -1,14 +1,26 @@
 # Table of contents
+
+
 **0. [Installation Instructions](#installation)**
+
 **1. [R1 - Identification of the problem you are trying to solve by building this particular app.](#req1)**
+
 **2. [R2 - Why is it a problem that needs solving?](#req2)**
+
 **3. [R3 - Why have you chosen this database system. What are the drawbacks compared to others?](#req3)**
+
 **4. [R4 - Identify and discuss the key functionalities and benefits of an ORM](#req4)**
+
 **5. [R5 - Document all endpoints for your API](#req5)**
+
 **6. [R6 - An ERD for your app](#req6)**
+
 **7. [R7 - Detail any third party services that your app will use](#req7)**
+
 **8. [R8 - Describe your projects models in terms of the relationships they have with each other](#req8)**
+
 **9. [R9 - Discuss the database relations to be implemented in your application](#req9)**
+
 **10. [R10 - Describe the way tasks are allocated and tracked in your project](#req10)**
 
 
