@@ -539,39 +539,36 @@ Prior to starting the build project, a project idea was presented and discussed 
 
 The initial proposal is as follows:
 
-> For my API Web Server i’m proposing a drone flight log API  It’s intended for use by a business or group that regularly flies drones for a specific purpose (such as flyby site inspections, aerial photography, racing etc.) and aims to log drone flights to keep a record of which pilot and drone were involved in the flight, as well as other metrics that may be relevant data (such as weather and performance) to store for the recorded flight. The entities that will exist are users, pilots, drones and flight_logs. A user may/may not have admin privileges. 
+> For my API Web Server i’m proposing a drone flight log API  
+> It’s intended for use by a business or group that regularly flies drones for a specific purpose (such as flyby site inspections, aerial photography, racing etc.) and aims to log drone flights to keep a record of which pilot and drone were involved in the flight, as well as other metrics that may be relevant data (such as weather and performance) to store for the recorded flight. The entities that will exist are users, pilots, drones and flight_logs. A user may/may not have admin privileges. 
 
-A user will be able to create and read a flight log. 
-A user will be able to read a pilot or drone card.
+>> A user will be able to create and read a flight log. 
+>> A user will be able to read a pilot or drone card.
 
-A user with admin privileges will be able to create, read, update and delete pilot and drone cards.
-A user with admin privileges will be able to update or delete an existing flight log. 
+>> A user with admin privileges will be able to create, read, update and delete pilot and drone cards.
+>> A user with admin privileges will be able to update or delete an existing flight log. 
 
-A user has the following relationships:
+> A user has the following relationships:
 
-one to many relationship with pilots 
+>> one to many relationship with pilots 
+>> one to many relationship with drones 
+>> one to many relationship with flight logs
 
-one to many relationship with drones 
+> In all cases, one user can create and have an association with multiple records of the other entities (flight logs, drones, pilots)
 
-one to many relationship with flight logs
+> A pilot has the following relationships:
 
-In all cases, one user can create and have an association with multiple records of the other entities (flight logs, drones, pilots)
+>> one to many relationship with flight_logs (A pilot can have many flights)
+>> many to many relationship with drones (A pilot can fly many different drones, a drone can be flown by many different pilots) 
 
-A pilot has the following relationships:
+> A drone has the following relationships:
 
-one to many relationship with flight_logs (A pilot can have many flights)
+>> one to many relationship with flight_logs (A drone can be associated with many flight logs)
+>> many to many relationship with pilots
 
-many to many relationship with drones (A pilot can fly many different drones, a drone can be flown by many different pilots) 
+> The flight logs would store an ID of the pilot and drone as FK’s.
 
-A drone has the following relationships:
-
-one to many relationship with flight_logs (A drone can be associated with many flight logs)
-
-many to many relationship with pilots
-
-The flight logs would store an ID of the pilot and drone as FK’s.
-
-I’d also like to include user registration, the ability to sort flight logs by pilots/drones, and for each pilots ‘flights_recorded’ metric to automatically update whenever the pilot_id is included (however i’m not sure if i’ll include these just yet based on workload/rubric requirements) **March 3, 2023 5:09 PM**
+> I’d also like to include user registration, the ability to sort flight logs by pilots/drones, and for each pilots ‘flights_recorded’ metric to automatically update whenever the pilot_id is included (however i’m not sure if i’ll include these just yet based on workload/rubric requirements) **March 3, 2023 5:09 PM**
 > 
 
 This initial proposal led the direction for the rest of the project, and remained as the blueprint for how the project should be structured and approached with little change. 
@@ -579,6 +576,8 @@ This initial proposal led the direction for the rest of the project, and remaine
 Tasks were allocated and tracked using Trello. See my Trello board below:
 
 [https://trello.com/b/Madtwb36/api-web-server-drone-logs](https://trello.com/b/Madtwb36/api-web-server-drone-logs)
+
+Four stages were created on the Trello board; To do, In Progress, Done and For review. The cards were moved into the appropriate stages each time I revisited the Trello board.
 
 Tasks that were set and recorded on the Trello board include:
 
