@@ -32,18 +32,23 @@
 Clone or download the repository from Github. 
 
 Ensure that PostgreSQL is installed. Open command line/terminal and run the following commands:
+
 ```psql```
 
 Create the database by typing:
+
 ```CREATE DATABASE drone_logs_db;```
 
 Connect to the database:
+
 ```\c drone_logs_db;```
 
 Create a user and set a password:
+
 ```CREATE USER admin WITH PASSWORD 'admin123';```
 
 Grant the user all privileges:
+
 ```GRANT ALL PRIVILEGES ON DATABASE drone_logs_db TO admin;```
 
 Open another command line/terminal and run the following commands:
@@ -53,18 +58,23 @@ Open another command line/terminal and run the following commands:
 ```source .venv/bin/activate```
 
 Install dependencies:
+
 ```pip install -r requirements.txt```
 
 In the `/src` folder, rename the `.envexample` file to `.env` and set the database connection and JWT secret key
+
 ```DATABASE_URL="postgresql+psycopg2://db_dev:123456@localhost:5432/drone_logs_db"```
+
 ```SECRET_KEY="example secret key"```
 
 Create, drop and seed the database with the flask reset function. In the console type:
+
 ```flask db reset``` 
 
 *Note that this seeds mock records amongst other mock user information, so that additional user records with and without admin privileges are created. See `/src/command/db.py` for more information.*
 
 Run the application:
+
 ```flask run```
 
 You should be able to use the application in your browser with the URL prefix 127.0.0.1:5000/, localhost:5000/, or through setup with Insomnia or Postman.
@@ -200,7 +210,7 @@ Additionally, ORM provides application portability as it allows the program to b
 ## R6 - An ERD for your app <a name="req6"></a>
 
 
-**For a further explanation on this ERD, see [R9](#R9)
+**For a further explanation on this ERD, see [R9](#R9)**
 
 ![T2A2-ERD](./docs/ERD.png)
 
