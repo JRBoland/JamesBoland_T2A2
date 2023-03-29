@@ -1,6 +1,61 @@
-# THIS PROJECT IS A WORK IN PROGRESS.
+# Table of contents
+0. [Installation Instructions](#installation)
+1. [R1 - Identification of the problem you are trying to solve by building this particular app.](#R1)
+2. [R2 - Why is it a problem that needs solving?](#R2)
+3. [R3 - Why have you chosen this database system. What are the drawbacks compared to others?](#3)
+4. [R4 - Identify and discuss the key functionalities and benefits of an ORM](#R4)
+5. [R5 - Document all endpoints for your API] (#R5)
+6. [R6 - An ERD for your app] (#R6)
+7. [R7 - Detail any third party services that your app will use] (#R7)
+8. [R8 - Describe your projects models in terms of the relationships they have with each other] (#R8)
+9. [R9 - Discuss the database relations to be implemented in your application](#R9)
+10. [R10 - Describe the way tasks are allocated and tracked in your project] (#R10)
 
-## R1 - Identification of the problem you are trying to solve by building this particular app.
+
+## Installation instructions <a name="installation"></a>
+
+Clone or download the repository from Github. 
+
+Ensure that PostgreSQL is installed. Open command line/terminal and run the following commands:
+```psql```
+
+Create the database by typing:
+```CREATE DATABASE drone_logs_db;```
+
+Connect to the database:
+```\c drone_logs_db;```
+
+Create a user and set a password:
+```CREATE USER admin WITH PASSWORD 'admin123';```
+
+Grant the user all privileges:
+```GRANT ALL PRIVILEGES ON DATABASE drone_logs_db TO admin;```
+
+Open another command line/terminal and run the following commands:
+
+```python3 -m venv .venv```
+
+```source .venv/bin/activate```
+
+Install dependencies:
+```pip install -r requirements.txt```
+
+In the `/src` folder, rename the `.envexample` file to `.env` and set the database connection and JWT secret key
+```DATABASE_URL="postgresql+psycopg2://db_dev:123456@localhost:5432/drone_logs_db"```
+```SECRET_KEY="example secret key"```
+
+Create, drop and seed the database with the flask reset function. In the console type:
+```flask db reset``` 
+
+*Note that this seeds mock records amongst other mock user information, so that additional user records with and without admin privileges are created. See `/src/command/db.py` for more information.*
+
+Run the application:
+```flask run```
+
+You should be able to use the application in your browser with the URL prefix 127.0.0.1:5000/, localhost:5000/, or through setup with Insomnia or Postman.
+
+
+## R1 - Identification of the problem you are trying to solve by building this particular app. <a name="R1"></a>
 
 The purpose of this application is to store data for drone flights. It is intended to by used by either organisations or individuals that require a form of a record keeping and data storage tool. For a hobbyist or organisation that utilises a number of drones, it's a measure of good practice to record the details of the flights as a form of documenting the flight that took place. 
 
@@ -26,7 +81,7 @@ A separate (or could be the same - reword) account may also be made with adminis
 With this, an organisation or individual or group of hobbyists can keep a track on which pilot flew which drone whilst also having a log of custom further details.
 
 
-## R2 - Why is it a problem that needs solving?
+## R2 - Why is it a problem that needs solving? <a name="R2"></a>
 
 (mention how theyre in the military too maybe)
 With great advancements in its space over the last decade, drones have seen a great rise in popularity across various different fields. Beyond the recognised instances of using a drone to record footage of nature or sports, it's common to see they're now being used for further business-related purposes such as recording weddings or real estate/construction site inspections. Beyond filming footage, they're also being used to transport small goods, monitor weather conditions, or even race in a competitive setting. There is a demand for drones that are custom built for certain purposes. 
@@ -39,7 +94,7 @@ Additionally, the culture of 'modular' drones has seen a great rise (though main
 - To log which pilot flew the drone for a certain flight
 
 
-## R3 - Why have you chosen this database system. What are the drawbacks compared to others?
+## R3 - Why have you chosen this database system. What are the drawbacks compared to others? <a name="R3"></a>
 
 For my project I have chosen to use PostgreSQL as the database management system. 
 
@@ -67,7 +122,7 @@ For the purpose of this particular project, PostgreSQL does not have many drawba
 - Performance limitations. Whilst PostgreSQL is very capable when it comes to scaling, it is not highest in class when it comes to speed, MySQL is considered faster.
 - Fewer third party tools. As PostgreSQL is not the most popular DBMS (MySQL is the most popular), resulting in less third-party tools that are available to implement.
 
-## R4 - Identify and discuss the key functionalities and benefits of an ORM
+## R4 - Identify and discuss the key functionalities and benefits of an ORM <a name="R4"></a>
 
 This project utilises SQLAlchemy, a popular pythonic ORM to write simpler queries when interacting with the database. 
 
@@ -115,16 +170,16 @@ It also provides a standardised way of ensuring the data involved in performing 
 
 Additionally, ORM provides application portability as it allows the program to be used with different databases systems simply by changing the configuration, allowing developers to (if required) change database systems to meet the changing requirements of the application.
 
-## R5 - Document all endpoints for your API
+## R5 - Document all endpoints for your API 
 
-See end of page (need to link)
+[See end of page](#R5)
 
-## R6 - An ERD for your app
+## R6 - An ERD for your app <a name="R6"></a>
 
 ![T2A2-ERD](./docs/T2A2%20ERD.png)
 
 
-## R7 - Detail any third party services that your app will use
+## R7 - Detail any third party services that your app will use <a name="R7"></a>
 
 **PostgreSQL** was used as the database for this project.
 
@@ -169,7 +224,7 @@ Pyscopg2 is a Python library that is used to connect and interact with PostgreSQ
 ![T2A2-Insomnia](./docs/insomnia-ss.png)
 
 
-## R8 - Describe your projects models in terms of the relationships they have with each other
+## R8 - Describe your projects models in terms of the relationships they have with each other <a name="R8"></a>
 
 The models in this project are User, Drone, Pilot, and FlightLog, found in their respective files within the `/src/models/` folder. Their data fields and relationship amongst themselves have been defined with SQLAlchemy `(db.Model)` (where `db = SQLALchemy` from `flask_sqlalchemy`).
 
@@ -414,7 +469,7 @@ flight_log_fields["created_by_user_id"] = [user.id]
         - One flight log can be associated with only one drone, pilot and user at a time, however drones, pilots or users may have many different flight logs.
 
 
-## R9 - Discuss the database relations to be implemented in your application
+## R9 - Discuss the database relations to be implemented in your application <a name="R9"></a>
 
 Please see the ERD in R6 for further understanding of the relations that were to be implemented as part of planning for the build of the application.
 
@@ -464,12 +519,12 @@ Pilots relationships:
 - Many pilots can fly many drones, and many drones can be flown by many pilots.
 
 
-## R10 - Describe the way tasks are allocated and tracked in your project
+## R10 - Describe the way tasks are allocated and tracked in your project <a name="R10"></a>
 - Trello (ongoing)
 
-## R5 - Document all endpoints for your API
+## R5 - Document all endpoints for your API <a name="R5"></a>
 
-# ENDPOINTS
+## ENDPOINTS
 
 Endpoints are presented in the following format:
 
