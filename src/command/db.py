@@ -8,7 +8,6 @@ from models.user import User
 db_cmd = Blueprint("db", __name__)
 
 
-
 @db_cmd.cli.command('create')
 def create_db():
     db.create_all()
@@ -19,6 +18,7 @@ def create_db():
 def drop_db():
     db.drop_all()
     print('Tables Dropped')
+
 
 #@db_cmd.cli.command('seed')
 def seed_db():
@@ -95,7 +95,7 @@ def seed_db():
     db.session.commit()
   
     pilot1 = Pilot(
-        name = "Marvin Jo",
+        name = "John Example",
         license = "Drone Pilots NSW",
         specialization = "Real estate site inspections",
         created_by_user_id = 2
@@ -217,6 +217,8 @@ def seed_db():
 
     print("Tables Seeded")
 
+
+# Reset db CLI command
 @db_cmd.cli.command('reset')
 def reset_db():
     db.drop_all()

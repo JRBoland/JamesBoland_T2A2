@@ -60,6 +60,7 @@ def create_drone():
 
     result = drone_schema.dump(drone)
     return jsonify(result)
+    
 
 @drone.route("/<int:id>", methods=["PATCH"])
 @jwt_required()
@@ -92,6 +93,7 @@ def patch_drone(id):
 
     result = drone_schema.dump(drone)
     return jsonify(result)
+
 
 @drone.route("/<int:id>", methods=["PUT"])
 @jwt_required()
@@ -126,6 +128,7 @@ def update_drone(id):
     result = drone_schema.dump(drone)
     return jsonify(result)
 
+
 @drone.route("/<int:id>", methods=["DELETE"])
 @jwt_required()
 def delete_drone(id):
@@ -155,20 +158,3 @@ def delete_drone(id):
     #return the drone in the response
     return jsonify(drone_schema.dump(drone))
 
-
-
-
-#@drone.route("/delete/<int:id>", methods=["DELETE"])
-#@jwt_required()
-#def delete_drone(id):
-   # user = get_jwt_identity()
-    
-    #drone = db.get_or_404(Drone, id, description="Invalid drone id")
-
-    #if user != user.is_admin:
-    #    return abort(401, description="You do not have admin privileges")
-    
-#    db.session.delete(drone)
-#    db.session.commit()
-
- #   return jsonify({f"Drone {id} has been deleted"})

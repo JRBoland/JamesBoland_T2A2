@@ -26,28 +26,8 @@ def get_flight_logs():
     flight_logs = FlightLog.query.all()
     result = flight_logs_schema.dump(flight_logs)
     return jsonify(result)
-#def flight_log_home():
-#    return"<p><b>Flight Logs API</b> <br> <em>/flight_logs</em> <br><br> Try these endpoints <br><ul><li>/flights</li><li>/flights/(id)</li><li>/drones</li><li>/drone_pilot_flights</li><li>/pilots</li></ul><br>Format: /flight_logs/<em>endpoint</em> "
-    
 
-#Get a list of flight logs
-#@flight_log.route("/flights", methods=["GET"])
-#@jwt_required()
-#def get_flight_logs():
-#    #Find and verify user
-#    user_id = get_jwt_identity()
-#    user = User.query.get(user_id)
-#    
-#    if not user:
-#        return abort(401, description="Invalid user. Please log in.")
-#    
-#    #Return flight logs
-#    flight_logs = FlightLog.query.all()
-#    result = flight_logs_schema.dump(flight_logs)
-#    return jsonify(result)
-
-# Get information of a flight log from it's flight ID
-@flight_log.get("/<int:id>")
+@flight_log.route("/<int:id>", methods=["GET"])
 @jwt_required()
 def get_flight_log(id):
     
@@ -69,7 +49,7 @@ def get_flight_log(id):
     return jsonify(result)
 
 #Get 
-@flight_log.route("/drones")
+@flight_log.route("/drones", methods=["GET"])
 @jwt_required()
 def get_flight_logs_drones():
     #Find and verify user
@@ -88,7 +68,7 @@ def get_flight_logs_drones():
             "Drone ID": flight_log.drone_id})
     return jsonify (result)
 
-@flight_log.route("/drones/more")
+@flight_log.route("/drones/more", methods=["GET"])
 @jwt_required()
 def get_flight_logs_drones_more():
     #Find and verify user
@@ -107,8 +87,8 @@ def get_flight_logs_drones_more():
             "Flight ID": flight_log.id, 
             "Location": flight_log.flight_location, 
             "Flight Date": flight_log.flight_date, 
-            "Flown by pilot ID": flight_log.pilot_id, 
-            "Pilot name": pilot.name,
+            "Flown by Pilot ID": flight_log.pilot_id, 
+            "Pilot Name": pilot.name,
             "Drone ID": flight_log.drone_id})
     return jsonify (result)
 
@@ -122,7 +102,8 @@ def get_flight_log_by_drone(drone_id):
     for flight_log in flight_logs:
         result.append({
             "Flight ID": flight_log.id,  
-            "Drone ID": flight_log.drone_id})
+            "Drone ID": flight_log.drone_id
+            })
     return jsonify(result)
 
 @flight_log.route("/drones/<int:drone_id>/more", methods=["GET"])
@@ -204,7 +185,7 @@ def get_drone_pilot_flights_by_drone(drone_id):
     return jsonify(result)
 
 #to implement
-@flight_log.route("/dp_flights/dp/<int:drone_id>/and/<int:pilot_id>")
+@flight_log.route("/dp_flights/dp/<int:drone_id>/and/<int:pilot_id>", methods=["GET"])
 @jwt_required()
 def get_dp_flights_by_drone_and_pilot(drone_id, pilot_id):
     #Find and verify user
@@ -228,7 +209,7 @@ def get_dp_flights_by_drone_and_pilot(drone_id, pilot_id):
     return jsonify(result)
 
 # QOL alternate option - maybe get rid of because of DRY?
-@flight_log.route("/dp_flights/pd/<int:pilot_id>/and/<int:drone_id>")
+@flight_log.route("/dp_flights/pd/<int:pilot_id>/and/<int:drone_id>", methods=["GET"])
 @jwt_required()
 def get_dp_flights_by_pilot_and_drone(pilot_id, drone_id):
     #Find and verify user
@@ -252,7 +233,7 @@ def get_dp_flights_by_pilot_and_drone(pilot_id, drone_id):
     return jsonify(result)
 
 
-@flight_log.route("/dp_flights/pilots/<int:pilot_id>")
+@flight_log.route("/dp_flights/pilots/<int:pilot_id>", methods=["GET"])
 @jwt_required()
 def get_drone_pilot_flights_by_pilot(pilot_id):
     #Find and verify user
@@ -314,7 +295,7 @@ def get_flight_logs_pilots_more():
             "Flight ID": flight_log.id, 
             "Location": flight_log.flight_location, 
             "Flight Date": flight_log.flight_date, 
-            "Flown by pilot ID": flight_log.pilot_id, 
+            "Pilot ID": flight_log.pilot_id, 
             "Pilot name": pilot.name,
             "Drone ID": flight_log.drone_id})
     return jsonify (result)
@@ -385,17 +366,7 @@ def get_flight_log_by_pilot_more(pilot_id):
             })
         
     return jsonify(result)
-    #result = flight_logs_schema.dump(flight_logs)
-    #return jsonify(result)
-#    #pilot = session.query(Pilot).filter_by(name=pilot_name).first()
-#    pilot = FlightLog.query.filter_by(pilot_id=pilot_id).first()
-#    #pilot = Pilot.query.filter_by(name=name).first()
-#    #fields = ['name']
-#    #pilot = session.query(Pilot).options(load_only(*fields)).all()
-#    if pilot is None:
-#       return jsonify({"error": "Pilot not found"}), 404
-#    #return pilot
-#    return jsonify({"id":pilot.id, "pilot_id": pilot.id})
+
 
 @flight_log.route("/<int:id>", methods=["PUT"])
 @jwt_required()

@@ -1,8 +1,6 @@
 from main import ma
 from marshmallow import fields
 
-#from flight_logs_schema import FlightLogSchema
-
 class PilotSchema(ma.Schema):
     class Meta:
         fields = ("id", "name", "license", "flights_recorded", "specialization", "created_by_user_id")      

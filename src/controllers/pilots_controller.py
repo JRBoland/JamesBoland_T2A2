@@ -15,7 +15,7 @@ pilot = Blueprint('pilot', __name__, url_prefix="/pilots")
 
 
 
-@pilot.get("/")
+@pilot.route("/", methods=["GET"])
 @jwt_required()
 def get_pilots():
     #Find and verify user
@@ -28,7 +28,7 @@ def get_pilots():
     result = pilots_schema.dump(pilots)
     return jsonify(result)
 
-@pilot.get("/<int:id>")
+@pilot.route("/<int:id>", methods=["GET"])
 @jwt_required()
 def get_pilot(id):
     #Find and verify user
@@ -69,7 +69,11 @@ def update_pilot(id):
         return jsonify({"error": f"Pilot {id} not found"}), 404
     
     #Allowing which fields to update
-    fields_to_update = ["name", "license", "specialization"]
+    fields_to_update = [
+        "name", 
+        "license", 
+        "specialization"
+        ]
     data = request.json
     for attr in data:
         if attr in fields_to_update:
@@ -85,7 +89,7 @@ def update_pilot(id):
 
 
 #To find pilot by name. Use "%20" as a space. Eg. /firstname%20lastname
-@pilot.route("/<string:pilot_name>/")
+@pilot.route("/<string:pilot_name>/", methods=["GET"])
 @jwt_required()
 def get_pilot_by_name(pilot_name):
     #Find and verify user
@@ -102,16 +106,12 @@ def get_pilot_by_name(pilot_name):
     if pilot is None:
        return jsonify({"error": f"Pilot {pilot_name} not found"}), 404
     #return pilot
-    return jsonify({"id":pilot.id, "name": pilot.name, "flights_recorded":pilot.flights_recorded})
-#
-#@app.route("/flights/<int:id>")
-#def get_pilots_flights(pilot_name):
-#    flight_list = []
-#    for flight in flight_logs.values
-#        if flight
-#
+    
+    result = pilot_schema.dump(pilot)
+    return jsonify(result)
 
-@pilot.route("/flights_recorded")
+
+@pilot.route("/flights_recorded", methods=["GET"])
 @jwt_required()
 def get_flights_recorded():
     #Find and verify user
@@ -175,7 +175,7 @@ def get_flights_recorded():
 #    return json.dumps(art_list)
 
 
-@pilot.post("/")
+@pilot.route("/", methods=["POST"])
 @jwt_required()
 def create_pilot():
     #get the user id invoking get_jwt_identity
@@ -190,6 +190,8 @@ def create_pilot():
         return abort(401, description="Unauthorised user")
     #try:    
     pilot_fields = pilot_schema.load(request.json)
+
+    # Pulls current user id to set created by id
     pilot_fields["created_by_user_id"] = user.id
     pilot = Pilot(**pilot_fields)
     db.session.add(pilot)

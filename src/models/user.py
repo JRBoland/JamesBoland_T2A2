@@ -1,7 +1,8 @@
 from main import db
-from marshmallow import fields
+
 
 class User(db.Model):
+
     #define the table name for the db
     __tablename__= "USERS"
 
@@ -14,11 +15,7 @@ class User(db.Model):
     password = db.Column(db.String())
     is_admin = db.Column(db.Boolean, default=False)
 
-    #flight_logs = db.relationship("FlightLog", backref="user")
-    #is_admin = fields.Boolean
 
-    #relationships
-    #flight_logs = db.relationship("FlightLog", backref="users")
 
 
 
