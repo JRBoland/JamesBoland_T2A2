@@ -534,7 +534,118 @@ Pilots relationships:
 
 
 ## R10 - Describe the way tasks are allocated and tracked in your project <a name="req10"></a>
-- Trello (ongoing)
+
+Prior to starting the build project, a project idea was presented and discussed with an educator. 
+
+The initial proposal is as follows:
+
+> For my API Web Server i’m proposing a drone flight log API
+
+It’s intended for use by a business or group that regularly flies drones for a specific purpose (such as flyby site inspections, aerial photography, racing etc.) and aims to log drone flights to keep a record of which pilot and drone were involved in the flight, as well as other metrics that may be relevant data (such as weather and performance) to store for the recorded flight. 
+
+The entities that will exist are users, pilots, drones and flight_logs. A user may/may not have admin privileges. 
+
+A user will be able to create and read a flight log. 
+A user will be able to read a pilot or drone card.
+
+A user with admin privileges will be able to create, read, update and delete pilot and drone cards.
+A user with admin privileges will be able to update or delete an existing flight log. 
+
+A user has the following relationships:
+
+one to many relationship with pilots 
+
+one to many relationship with drones 
+
+one to many relationship with flight logs
+
+In all cases, one user can create and have an association with multiple records of the other entities (flight logs, drones, pilots)
+
+A pilot has the following relationships:
+
+one to many relationship with flight_logs (A pilot can have many flights)
+
+many to many relationship with drones (A pilot can fly many different drones, a drone can be flown by many different pilots) 
+
+A drone has the following relationships:
+
+one to many relationship with flight_logs (A drone can be associated with many flight logs)
+
+many to many relationship with pilots
+
+The flight logs would store an ID of the pilot and drone as FK’s.
+
+I’d also like to include user registration, the ability to sort flight logs by pilots/drones, and for each pilots ‘flights_recorded’ metric to automatically update whenever the pilot_id is included (however i’m not sure if i’ll include these just yet based on workload/rubric requirements) **March 3, 2023 5:09 PM**
+> 
+
+This initial proposal led the direction for the rest of the project, and remained as the blueprint for how the project should be structured and approached with little change. 
+
+Tasks were allocated and tracked using Trello. See my Trello board below:
+
+[https://trello.com/b/Madtwb36/api-web-server-drone-logs](https://trello.com/b/Madtwb36/api-web-server-drone-logs)
+
+Tasks that were set and recorded on the Trello board include:
+
+- **Finalise ERD and get approval**
+- **DB commands**
+    - Flask db create
+    - Flask db drop
+    - Flask db seed
+- **Controllers**
+    - User controller
+        - get (all)
+        - get (id)
+        - post
+        - delete (id)
+        - /auth/login
+        - /auth/register
+    - Drone controller
+        - get (all)
+        - get (id)
+        - post
+        - delete (id)
+        - update (id)
+    - Pilot controller
+        - get (all)
+        - get (id)
+        - post
+        - delete (id)
+        - update (id)
+        - flights_recorded get (all)
+        - get (string:name)
+    - Flight Log controller
+        - get (all)
+        - get (id)
+        - /drones get (all)
+        - /drones get (id)
+        - /drone pilot flights get (all)
+        - /drone pilot flights get (id)
+        - /pilots get (all)
+        - /pilots get (id)
+        - post
+        - delete (id)
+        - update (id)
+- **Auth permissions (and jwt)**
+    - Default admin=false, user to view and post flight logs
+    - admin = true to post pilots and drones
+    - admin = true to delete pilots, drones, flight logs and users
+    - admin = true to patch pilots, drones, flight logs
+    - error: unauthorised user (create error code for unauthorised user)
+- **Build**
+    - File structure
+    - Config
+    - Create and link db
+    - Schemas/models
+    - Install packages/libraries
+    - Controllers
+    - Authentication
+    - Other
+- **Setup third party**
+    - DBeaver
+    - Insomnia
+- **main.py**
+- **Documentation**
+    - R1 through 10
 
 ## R5 - Document all endpoints for your API <a name="req5"></a>
 
@@ -555,6 +666,7 @@ Endpoints are presented in the following format:
 **Local host URL may be localhost:5000/ or alternatively, http://127.0.0.1:5000/  in a browser.**
 
 **All actions require that the user is logged in.** 
+**Actions which require admin authentication is marked by 'Admin required:'**
 
 **/<int:value> -  Enter the integer id value** 
 
@@ -1663,3 +1775,8 @@ Endpoints are presented in the following format:
 10. Towards Data Science. (2021, February 12). SQLAlchemy Python Tutorial. Retrieved from **[https://towardsdatascience.com/sqlalchemy-python-tutorial-79a577141a91](https://towardsdatascience.com/sqlalchemy-python-tutorial-79a577141a91)**
 11. Flask-SQLAlchemy Documentation. (n.d.). Retrieved from **[https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/](https://flask-sqlalchemy.palletsprojects.com/en/3.0.x/)**
 12. Marshmallow Documentation. (n.d.). Retrieved from **[https://marshmallow.readthedocs.io/en/stable/](https://marshmallow.readthedocs.io/en/stable/)**
+13. JSON Web Tokens - jwt.io. (n.d.). Retrieved from **[https://jwt.io/introduction](https://jwt.io/introduction)**
+14. Rajan, S. (2018, June 7). How JWT (JSON Web Token) Authentication Works. dev.to. **[https://dev.to/kcdchennai/how-jwt-json-web-token-authentication-works-21e7](https://dev.to/kcdchennai/how-jwt-json-web-token-authentication-works-21e7)**
+15. Auth0. (2018, September 18). Hashing in Action: Understanding bcrypt. Auth0 Blog. **[https://auth0.com/blog/hashing-in-action-understanding-bcrypt/](https://auth0.com/blog/hashing-in-action-understanding-bcrypt/)**
+16. Flask-Bcrypt Documentation. (n.d.). Retrieved from **[https://flask-bcrypt.readthedocs.io/en/1.0.1/](https://flask-bcrypt.readthedocs.io/en/1.0.1/)**
+17. Psycopg2 · PyPI. (n.d.). Retrieved from **[https://pypi.org/project/psycopg2/](https://pypi.org/project/psycopg2/)**
