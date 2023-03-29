@@ -1,6 +1,6 @@
 # Table of contents
 0. [Installation Instructions](#installation)
-1. [R1 - Identification of the problem you are trying to solve by building this particular app.](#R1)
+1. [R1 - Identification of the problem you are trying to solve by building this particular app.](#req1)
 2. [R2 - Why is it a problem that needs solving?](#R2)
 3. [R3 - Why have you chosen this database system. What are the drawbacks compared to others?](#3)
 4. [R4 - Identify and discuss the key functionalities and benefits of an ORM](#R4)
@@ -55,7 +55,7 @@ Run the application:
 You should be able to use the application in your browser with the URL prefix 127.0.0.1:5000/, localhost:5000/, or through setup with Insomnia or Postman.
 
 
-## R1 - Identification of the problem you are trying to solve by building this particular app. <a name="R1"></a>
+## R1 - Identification of the problem you are trying to solve by building this particular app. <a name="req1"></a>
 
 The purpose of this application is to store data for drone flights. It is intended to by used by either organisations or individuals that require a form of a record keeping and data storage tool. For a hobbyist or organisation that utilises a number of drones, it's a measure of good practice to record the details of the flights as a form of documenting the flight that took place. 
 
